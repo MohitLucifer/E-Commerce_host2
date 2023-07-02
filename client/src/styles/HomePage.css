@@ -1,6 +1,28 @@
 .banner-img {
     margin-top: 60px;
   }
+
+  .blur-image {
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .blur-image:hover {
+    transform: scale(0.8);
+  }
+  /* //product css */
+  .header-img{
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .header-img:hover {
+    transform: scale(0.8);
+  }
+  
+  .image-fit {
+    object-fit: cover;
+   
+  }
+  
   
   .home-page h1 {
     color: gray;

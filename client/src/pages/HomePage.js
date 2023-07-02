@@ -150,7 +150,7 @@ const HomePage = () => {
           <div className="carousel-item">
             <img
               src="/images/banner1.jpg"
-              className="d-block w-100"
+              className="d-block w-100 image-fit"
               alt="..."
             />
             <div className="carousel-caption d-none d-md-block">
@@ -195,7 +195,8 @@ const HomePage = () => {
       </div>
 
       <div className="container-fluid row mt-3">
-        <div className="col-md-2 filter"  style={{ backgroundColor: ' #c2c2d6', border: '5px solid black', borderRadius: '10px' }}>
+        <div className="col-md-2 filter"  style={{ backgroundColor: ' #c2c2d6', border: '5px solid black', borderRadius: '10px' ,padding: '10px',
+      display: 'inline-block' ,height: '555px'}}>
           <h4 className="text-center">Filter By Category</h4>
           <div className="d-flex flex-column">
             {categories?.map((c) => (
@@ -227,33 +228,39 @@ const HomePage = () => {
             </button>
           </div>
         </div>
-        <div className="col-md-9 offset-1" style={{ backgroundColor: '#c2c2d6', border: '5px solid black', borderRadius: '10px' }}>
+        <div className="col-md-9 offset-1" >
           <h1 className="text-center">All Products</h1>
           <div className="d-flex flex-wrap">
             {products?.map((p) => (
               <div className="card m-2" style={{ width: "18rem" ,border: '5px solid black'}} key={p._id}>
                 <img
                   src={`/api/v1/product/product-photo/${p._id}`}
-                  className="card-img-top"
+                  className="card-img-top blur-image"
                   alt={p.name}
                 />
-                <div className="card-body">
-                  <h5 className="card-title">{p.name}</h5>
+                <div className="card-body" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                 <div >
+                 <h5 className="card-title">{p.name}</h5>
+                 
+                 </div>
+                 
+                 <div>
+                  <p className="card-text fw-bolder" style={{ color : 'green' , }}> $ {p.price}</p>
+                  </div>
+                  </div>
                   <p className="card-text">
-                    {p.description.substring(0, 30)}...
+                    {p.description.substring(0, 100)}...
                   </p>
-                  <p className="card-text"> $ {p.price}</p>
-                  <div className="col-md-9">
+                  <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                   <button
                     className="btn btn-primary ms-1"
                     onClick={() => navigate(`/product/${p.slug}`)}
                   >
                     More Details
-                  </button>
-                  </div>
-                 <div className="col-md-9">
+                  </button>          
                  <button
-                    className="btn btn-secondary ms-1"
+                    className="btn btn-secondary ms-1 " style={{ backgroundColor : 'black'}}
                     onClick={() => {
                       setCart([...cart, p]);
                       localStorage.setItem(
@@ -265,7 +272,8 @@ const HomePage = () => {
                   >
                     ADD TO CART
                   </button>
-                 </div>
+                  </div>
+                 
                 </div>
               </div>
             ))}
@@ -290,3 +298,4 @@ const HomePage = () => {
 };
 
 export default HomePage;
+// style={{ backgroundColor: '#c2c2d6', border: '5px solid black', borderRadius: '10px' }}
