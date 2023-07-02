@@ -1,5 +1,6 @@
 import productModel from "../models/productModel.js";
 import categoryModel from "../models/categoryModel.js";
+import orderModel from "../models/orderModel.js";
 import fs from "fs";
 import slugify from "slugify";
 
@@ -309,5 +310,20 @@ export const productCategoryController = async (req, res) => {
       error,
       message: "Error While Getting products",
     });
+  }
+};
+//payment
+export const brainTreePaymentController = async (req, res) => {
+  try {
+    const { cart } = req.body;
+        if (cart) {
+          const order = new orderModel({
+            products: cart,
+            buyer: req.user._id,
+          }).save();
+          res.json({ ok: true });
+        }   
+  } catch (error) {
+    console.log(error);
   }
 };
