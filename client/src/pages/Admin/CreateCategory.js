@@ -93,8 +93,10 @@ const CreateCategory = () => {
             <AdminMenu />
           </div>
           <div className="col-md-9">
-            <h1>Manage Category</h1>
-            <div className="p-3 w-50">
+            <h1 style={{ color: 'black', fontSize: '28px', fontWeight: 'bold', marginBottom: '20px' }}>Manage Category</h1>
+            <div className="p-3 w-50"
+            style={{ backgroundColor: '#f5f5f5', borderRadius: '10px'
+            , boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)'  }}>
               <CategoryForm
                 handleSubmit={handleSubmit}
                 value={name}
@@ -102,8 +104,8 @@ const CreateCategory = () => {
               />
             </div>
             <div className="w-75">
-              <table className="table">
-                <thead>
+              <table className="table table-bordered table-hover">
+                <thead className="table-dark">
                   <tr>
                     <th scope="col">Name</th>
                     <th scope="col">Actions</th>

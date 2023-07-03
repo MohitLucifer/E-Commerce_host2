@@ -32,14 +32,14 @@ const Orders = () => {
             {orders?.map((o, i) => {
               return (
                 <div className="border shadow">
-                  <table className="table">
-                    <thead>
+                  <table className="table table-striped table-bordered">
+                    <thead className="table-dark">
                       <tr>
                         <th scope="col">#</th>
                         <th scope="col">Status</th>
                         <th scope="col">Buyer</th>
                         <th scope="col"> date</th>
-                        {/* <th scope="col">Payment</th> */}
+                        <th scope="col">Payment</th>
                         <th scope="col">Quantity</th>
                       </tr>
                     </thead>
@@ -49,7 +49,7 @@ const Orders = () => {
                         <td>{o?.status}</td>
                         <td>{o?.buyer?.name}</td>
                         <td>{moment(o?.createAt).fromNow()}</td>
-                        {/* <td>{o?.payment.success ? "Success" : "Failed"}</td> */}
+                        <td>{<strong style={{color : 'green'}}>Success</strong>}</td>
                         <td>{o?.products?.length}</td>
                       </tr>
                     </tbody>

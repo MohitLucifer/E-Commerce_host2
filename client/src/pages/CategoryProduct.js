@@ -35,7 +35,7 @@ const CategoryProduct = () => {
               {products?.map((p) => (
                 <div
                   className="card m-2"
-                  style={{ width: "18rem" }}
+                  style={{ width: "18rem" ,border: '5px solid black'}}
                   key={p._id}
                 >
                   <img
@@ -43,21 +43,26 @@ const CategoryProduct = () => {
                     className="card-img-top"
                     alt={p.name}
                   />
-                  <div className="card-body">
+                  <div className="card-body"  >
+                    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
                     <h5 className="card-title">{p.name}</h5>
+                    
+                    <strong className="card-text" style={{ color : 'green' , }}> ${p.price}</strong>
+                    </div>
                     <p className="card-text">
-                      {p.description.substring(0, 30)}...
+                      {p.description.substring(0, 100)}...
                     </p>
-                    <p className="card-text"> $ {p.price}</p>
+                    <div style={{ display: 'flex', justifyContent: 'space-between'}}>
                     <button
-                      className="btn btn-primary ms-1"
+                      className="btn btn-primary ms-1 "
                       onClick={() => navigate(`/product/${p.slug}`)}
                     >
                       More Details
                     </button>
-                    <button className="btn btn-secondary ms-1">
+                    <button className="btn btn-secondary ms-1" style={{ backgroundColor : 'black'}}>
                       ADD TO CART
                     </button>
+                    </div>
                   </div>
                 </div>
               ))}

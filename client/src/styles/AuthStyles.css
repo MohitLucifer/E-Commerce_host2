@@ -6,8 +6,10 @@
   justify-content: center;
   min-height: 70vh;
   flex-direction: column;
-  background-color: #ffdee9;
-  background-image: linear-gradient(0deg, #ffdee9 0%, #b5fffc 100%);
+  background-size: cover;
+  background-position: center;
+  /* background-color: #ffdee9; */
+ background-image: url(../../public/images/login3.jpg);
 }
 
 .form-container form {

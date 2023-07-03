@@ -139,7 +139,7 @@ const HomePage = () => {
         </div>
         <div className="carousel-inner">
           <div className="carousel-item active">
-            <img src="/images/banner.png" className="d-block w-100 h-10" alt="..." />
+            <img src="/images/moto1.jpg" className="d-block w-100 h-10" alt="..." />
             <div className="carousel-caption d-none d-md-block">
               <h5>Ecommerce Shoppping </h5>
               {/* <p>
@@ -149,7 +149,7 @@ const HomePage = () => {
           </div>
           <div className="carousel-item">
             <img
-              src="/images/banner1.jpg"
+              src="/images/vivo1.jpg"
               className="d-block w-100 image-fit"
               alt="..."
             />
@@ -162,8 +162,8 @@ const HomePage = () => {
           </div>
           <div className="carousel-item">
             <img
-              src="/images/banner2.jpg"
-              className="d-block w-100"
+              src="/images/br2.jpg"
+              className="d-block w-100 image-fluid"
               alt="..."
             />
             <div className="carousel-caption d-none d-md-block">
