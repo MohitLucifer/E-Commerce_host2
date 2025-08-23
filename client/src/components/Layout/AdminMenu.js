@@ -1,93 +1,93 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
+import { FaCog, FaPlus, FaBox, FaShoppingBag, FaUsers, FaSignOutAlt, FaChartBar } from 'react-icons/fa';
+
 const AdminMenu = () => {
+  const location = useLocation();
+
+  const menuItems = [
+    {
+      path: "/dashboard/admin/create-category",
+      icon: <FaPlus />,
+      label: "Create Category",
+      description: "Add new product categories"
+    },
+    {
+      path: "/dashboard/admin/create-product",
+      icon: <FaPlus />,
+      label: "Create Product",
+      description: "Add new products to inventory"
+    },
+    {
+      path: "/dashboard/admin/products",
+      icon: <FaBox />,
+      label: "Products",
+      description: "Manage all products"
+    },
+    {
+      path: "/dashboard/admin/orders",
+      icon: <FaShoppingBag />,
+      label: "Orders",
+      description: "View and manage orders"
+    },
+    {
+      path: "/dashboard/admin/users",
+      icon: <FaUsers />,
+      label: "Users",
+      description: "Manage user accounts"
+    }
+  ];
+
   return (
-    <>
-      <div className="text-center">
-        <div className="list-group">
-          <h4
-            style={{ backgroundColor: "grey", height: "50px", padding: "10px",borderRadius: '5px' }}
-          >
-            Admin Panel
-          </h4>
-          <NavLink
-            to="/dashboard/admin/create-category"
-            className="list-group-item list-group-item-action"
-            style={{
-              color: "white",
-              background: "linear-gradient(to right, #FF416C, #FF4B2B)",
-              padding: "10px 20px",
-              borderRadius: "5px",
-              textDecoration: "none",
-              boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)",
-              transition: "background-color 0.3s ease",
-            }}
-          >
-            Create Category
-          </NavLink>
-          <NavLink
-            to="/dashboard/admin/create-product"
-            className="list-group-item list-group-item-action"
-            style={{
-              color: "white",
-              background: "linear-gradient(to right, #FF416C, #FF4B2B)",
-              padding: "10px 20px",
-              borderRadius: "5px",
-              textDecoration: "none",
-              boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)",
-              transition: "background-color 0.3s ease",
-            }}
-          >
-            Create Product
-          </NavLink>
-          <NavLink
-            to="/dashboard/admin/products"
-            className="list-group-item list-group-item-action"
-            style={{
-              color: "white",
-              background: "linear-gradient(to right, #FF416C, #FF4B2B)",
-              padding: "10px 20px",
-              borderRadius: "5px",
-              textDecoration: "none",
-              boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)",
-              transition: "background-color 0.3s ease",
-            }}
-          >
-            Products
-          </NavLink>
-          <NavLink
-            to="/dashboard/admin/orders"
-            className="list-group-item list-group-item-action"
-            style={{
-              color: "white",
-              background: "linear-gradient(to right, #FF416C, #FF4B2B)",
-              padding: "10px 20px",
-              borderRadius: "5px",
-              textDecoration: "none",
-              boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)",
-              transition: "background-color 0.3s ease",
-            }}
-          >
-            orders
-          </NavLink>
-          <NavLink
-            to="/dashboard/admin/users"
-            className="list-group-item list-group-item-action"
-            style={{
-              color: "white",
-              background: "linear-gradient(to right, #FF416C, #FF4B2B)",
-              padding: "10px 20px",
-              borderRadius: "5px",
-              textDecoration: "none",
-              boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)",
-              transition: "background-color 0.3s ease",
-            }}
-          >
-            Users
-          </NavLink>
+    <div className="modern-admin-menu">
+      <div className="menu-header">
+        <div className="menu-avatar">
+          <FaCog />
+        </div>
+        <div className="menu-title">
+          <h3>Admin Panel</h3>
+          <p>Manage your store</p>
         </div>
       </div>
-    </>
+
+      <nav className="menu-navigation">
+        {menuItems.map((item, index) => (
+          <NavLink
+            key={item.path}
+            to={item.path}
+            className={({ isActive }) => 
+              `menu-item ${isActive ? 'active' : ''}`
+            }
+          >
+            <div className="menu-item-icon">
+              {item.icon}
+            </div>
+            <div className="menu-item-content">
+              <span className="menu-item-label">{item.label}</span>
+              <span className="menu-item-description">{item.description}</span>
+            </div>
+            <div className="menu-item-indicator">
+              <div className="indicator-dot"></div>
+            </div>
+          </NavLink>
+        ))}
+      </nav>
+
+      <div className="menu-footer">
+        <button className="menu-action-btn">
+          <FaChartBar />
+          <span>Analytics</span>
+        </button>
+        <button className="menu-action-btn">
+          <FaCog />
+          <span>Settings</span>
+        </button>
+        <button className="menu-action-btn logout">
+          <FaSignOutAlt />
+          <span>Logout</span>
+        </button>
+      </div>
+    </div>
   );
 };
 

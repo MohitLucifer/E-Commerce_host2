@@ -267,6 +267,53 @@ export const searchProductController = async (req, res) => {
   }
 };
 
+// search suggestions
+export const searchSuggestionsController = async (req, res) => {
+  try {
+    const { keyword } = req.params;
+    
+    if (!keyword || keyword.length < 2) {
+      return res.json({ suggestions: [] });
+    }
+
+    // Get product names that match the keyword
+    const productSuggestions = await productModel
+      .find({
+        name: { $regex: keyword, $options: "i" }
+      })
+      .select("name")
+      .limit(5)
+      .lean();
+
+    // Get category names that match the keyword
+    const categorySuggestions = await categoryModel
+      .find({
+        name: { $regex: keyword, $options: "i" }
+      })
+      .select("name")
+      .limit(3)
+      .lean();
+
+    // Combine and format suggestions
+    const suggestions = [
+      ...productSuggestions.map(p => p.name),
+      ...categorySuggestions.map(c => c.name)
+    ];
+
+    // Remove duplicates and limit total suggestions
+    const uniqueSuggestions = [...new Set(suggestions)].slice(0, 8);
+
+    res.json({ suggestions: uniqueSuggestions });
+  } catch (error) {
+    console.log(error);
+    res.status(400).send({
+      success: false,
+      message: "Error In Search Suggestions API",
+      error,
+    });
+  }
+};
+
 // similar products
 export const realtedProductController = async (req, res) => {
   try {

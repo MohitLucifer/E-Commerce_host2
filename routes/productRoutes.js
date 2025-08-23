@@ -12,6 +12,7 @@ import {
   productPhotoController,
   realtedProductController,
   searchProductController,
+  searchSuggestionsController,
   updateProductController,
 } from "../controllers/ProductController.js";
 import { isAdmin, requireSignIn } from "../middlewares/authMiddleware.js";
@@ -59,6 +60,9 @@ router.get("/product-list/:page", productListController);
 
 //search product
 router.get("/search/:keyword", searchProductController);
+
+//search suggestions
+router.get("/search-suggestions/:keyword", searchSuggestionsController);
 
 //similar product
 router.get("/related-product/:pid/:cid", realtedProductController);

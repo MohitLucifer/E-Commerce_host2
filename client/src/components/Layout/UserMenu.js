@@ -1,43 +1,76 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
-import "../Layout/userMenu.css"
+import { NavLink, useLocation } from "react-router-dom";
+import { FaUser, FaShoppingBag, FaHome, FaCog, FaSignOutAlt } from 'react-icons/fa';
+import "../Layout/userMenu.css";
+
 const UserMenu = () => {
+  const location = useLocation();
+
+  const menuItems = [
+    {
+      path: "/dashboard",
+      icon: <FaHome />,
+      label: "Dashboard",
+      description: "Overview of your account"
+    },
+    {
+      path: "/dashboard/user/profile",
+      icon: <FaUser />,
+      label: "Profile",
+      description: "Manage your personal information"
+    },
+    {
+      path: "/dashboard/user/orders",
+      icon: <FaShoppingBag />,
+      label: "Orders",
+      description: "View your order history"
+    }
+  ];
+
   return (
-    <div>
-      <div className="text-center">
-        <div className="list-group">
-          <h4>            Dashboard           </h4>
-          <NavLink
-            to="/dashboard/user/profile"
-            className="list-group-item list-group-item-action"
-            style={{
-              color: "white",
-              background: "linear-gradient(to right, #FF416C, #FF4B2B)",
-              padding: "10px 20px",
-              borderRadius: "5px",
-              textDecoration: "none",
-              boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)",
-              transition: "background-color 0.3s ease",
-            }}
-          >
-            Profile
-          </NavLink>
-          <NavLink
-            to="/dashboard/user/orders"
-            className="list-group-item list-group-item-action"
-            style={{
-              color: "white",
-              background: "linear-gradient(to right, #FF416C, #FF4B2B)",
-              padding: "10px 20px",
-              borderRadius: "5px",
-              textDecoration: "none",
-              boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.25)",
-              transition: "background-color 0.3s ease",
-            }}
-          >
-            Orders
-          </NavLink>
+    <div className="modern-user-menu">
+      <div className="menu-header">
+        <div className="menu-avatar">
+          <FaUser />
         </div>
+        <div className="menu-title">
+          <h3>User Menu</h3>
+          <p>Manage your account</p>
+        </div>
+      </div>
+
+      <nav className="menu-navigation">
+        {menuItems.map((item, index) => (
+          <NavLink
+            key={item.path}
+            to={item.path}
+            className={({ isActive }) => 
+              `menu-item ${isActive ? 'active' : ''}`
+            }
+          >
+            <div className="menu-item-icon">
+              {item.icon}
+            </div>
+            <div className="menu-item-content">
+              <span className="menu-item-label">{item.label}</span>
+              <span className="menu-item-description">{item.description}</span>
+            </div>
+            <div className="menu-item-indicator">
+              <div className="indicator-dot"></div>
+            </div>
+          </NavLink>
+        ))}
+      </nav>
+
+      <div className="menu-footer">
+        <button className="menu-action-btn">
+          <FaCog />
+          <span>Settings</span>
+        </button>
+        <button className="menu-action-btn logout">
+          <FaSignOutAlt />
+          <span>Logout</span>
+        </button>
       </div>
     </div>
   );

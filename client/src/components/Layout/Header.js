@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink, Link } from "react-router-dom";
 import { useAuth } from "../../context/auth";
 import toast from "react-hot-toast";
@@ -6,11 +6,23 @@ import SearchInput from "../Form/SearchInput";
 import useCategory from "../../hooks/useCategory";
 import {useCart} from '../../context/cart'
 import { Badge } from "antd";
-// import "../../styles/header.css";
+import { FaShoppingCart, FaUser, FaSearch, FaBars, FaTimes } from 'react-icons/fa';
+
 const Header = () => {
   const [auth, setAuth] = useAuth();
   const [cart] = useCart();
   const categories = useCategory();
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const handleLogout = () => {
     setAuth({
       ...auth,
@@ -20,48 +32,57 @@ const Header = () => {
     localStorage.removeItem("auth");
     toast.success("Logout Successfully");
   };
+
   return (
     <>
-      <nav className="navbar navbar-expand-lg bg-body-tertiary" >
-        <div className="container-fluid" >
-          <button
-            className="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarTogglerDemo01"
-            aria-controls="navbarTogglerDemo01"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
+      <nav className={`modern-navbar ${isScrolled ? 'scrolled' : ''}`}>
+        <div className="nav-container">
+          {/* Logo Section */}
+          <Link to="/" className="nav-logo">
+            <FaShoppingCart className="logo-icon" />
+            <span className="logo-text">ECOMMERCE</span>
+          </Link>
+
+          {/* Mobile Menu Toggle */}
+          <button 
+            className="mobile-menu-toggle"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
-            <span className="navbar-toggler-icon" />
+            {isMobileMenuOpen ? <FaTimes /> : <FaBars />}
           </button>
-          <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
-            <Link to="/" className="navbar-brand">
-              🛒 Ecommerce App
-            </Link>
-            <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
+
+          {/* Navigation Content */}
+          <div className={`nav-content ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
+            {/* Search Section */}
+            <div className="search-section">
               <SearchInput />
+            </div>
+
+            {/* Navigation Links */}
+            <ul className="nav-links">
               <li className="nav-item">
-                <NavLink to="/" className="nav-link ">
+                <NavLink to="/" className="nav-link" onClick={() => setIsMobileMenuOpen(false)}>
                   Home
                 </NavLink>
               </li>
+              
               <li className="nav-item dropdown">
                 <Link
                   className="nav-link dropdown-toggle"
-                  to={"/categories"}
+                  to="/categories"
                   data-bs-toggle="dropdown"
+                  onClick={() => setIsMobileMenuOpen(false)}
                 >
                   Categories
                 </Link>
                 <ul className="dropdown-menu">
                   <li>
-                    <Link className="dropdown-item" to={"/categories"}>
+                    <Link className="dropdown-item" to="/categories">
                       All Categories
                     </Link>
                   </li>
                   {categories?.map((c) => (
-                    <li>
+                    <li key={c.slug}>
                       <Link
                         className="dropdown-item"
                         to={`/category/${c.slug}`}
@@ -73,59 +94,62 @@ const Header = () => {
                 </ul>
               </li>
 
+              {/* User Authentication */}
               {!auth?.user ? (
                 <>
                   <li className="nav-item">
-                    <NavLink to="/register" className="nav-link">
+                    <NavLink to="/register" className="nav-link auth-link" onClick={() => setIsMobileMenuOpen(false)}>
                       Register
                     </NavLink>
                   </li>
                   <li className="nav-item">
-                    <NavLink to="/login" className="nav-link">
+                    <NavLink to="/login" className="nav-link auth-link login-btn" onClick={() => setIsMobileMenuOpen(false)}>
                       Login
                     </NavLink>
                   </li>
                 </>
               ) : (
-                <>
-                  <li className="nav-item dropdown">
-                    <NavLink
-                      className="nav-link dropdown-toggle"
-                      href="#"
-                      role="button"
-                      data-bs-toggle="dropdown"
-                      style={{ border: "none" }}
-                    >
-                      {auth?.user?.name}
-                    </NavLink>
-                    <ul className="dropdown-menu">
-                      <li>
-                        <NavLink
-                          to={`/dashboard/${
-                            auth?.user?.role === 1 ? "admin" : "user"
-                          }`}
-                          className="dropdown-item"
-                        >
-                          Dashboard
-                        </NavLink>
-                      </li>
-                      <li>
-                        <NavLink
-                          onClick={handleLogout}
-                          to="/login"
-                          className="dropdown-item"
-                        >
-                          Logout
-                        </NavLink>
-                      </li>
-                    </ul>
-                  </li>
-                </>
+                <li className="nav-item dropdown">
+                  <NavLink
+                    className="nav-link dropdown-toggle user-menu"
+                    href="#"
+                    role="button"
+                    data-bs-toggle="dropdown"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <FaUser className="user-icon" />
+                    <span>{auth?.user?.name}</span>
+                  </NavLink>
+                  <ul className="dropdown-menu user-dropdown">
+                    <li>
+                      <NavLink
+                        to={`/dashboard/${
+                          auth?.user?.role === 1 ? "admin" : "user"
+                        }`}
+                        className="dropdown-item"
+                      >
+                        Dashboard
+                      </NavLink>
+                    </li>
+                    <li>
+                      <NavLink
+                        onClick={handleLogout}
+                        to="/login"
+                        className="dropdown-item"
+                      >
+                        Logout
+                      </NavLink>
+                    </li>
+                  </ul>
+                </li>
               )}
+
+              {/* Cart */}
               <li className="nav-item">
-                <Badge count={cart?.length} showZero>
-                  <NavLink to="/cart" className="nav-link">
-                    Cart
+                <Badge count={cart?.length} showZero className="cart-badge">
+                  <NavLink to="/cart" className="nav-link cart-link" onClick={() => setIsMobileMenuOpen(false)}>
+                    <FaShoppingCart className="cart-icon" />
+                    <span>Cart</span>
                   </NavLink>
                 </Badge>
               </li>
