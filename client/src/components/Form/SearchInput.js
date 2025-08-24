@@ -45,7 +45,7 @@ const SearchInput = () => {
       searchTimeoutRef.current = setTimeout(async () => {
         try {
           const { data } = await axios.get(
-            `/api/v1/product/search-suggestions/${values.keyword}`
+            `https://e-commerce-host2.onrender.com/api/v1/product/search-suggestions/${values.keyword}`
           );
           setSuggestions(data.suggestions || []);
           setLoading(false);
@@ -79,7 +79,7 @@ const SearchInput = () => {
     
     try {
       const { data } = await axios.get(
-        `/api/v1/product/search/${values.keyword}`
+        `https://e-commerce-host2.onrender.com/api/v1/product/search/${values.keyword}`
       );
       setValues({ ...values, results: data });
       navigate("/search");

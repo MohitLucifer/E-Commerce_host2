@@ -17,7 +17,7 @@ const Users = () => {
   const getAllUsers = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get("/api/v1/auth/all-users");
+      const { data } = await axios.get("https://e-commerce-host2.onrender.com/api/v1/auth/all-users");
       if (data?.success) {
         setUsers(data.users);
       } else {
@@ -47,7 +47,7 @@ const Users = () => {
   const handleDeleteUser = async (userId) => {
     if (window.confirm("Are you sure you want to delete this user?")) {
       try {
-        const { data } = await axios.delete(`/api/v1/auth/delete-user/${userId}`);
+        const { data } = await axios.delete(`https://e-commerce-host2.onrender.com/api/v1/auth/delete-user/${userId}`);
         if (data?.success) {
           toast.success("User deleted successfully");
           getAllUsers();

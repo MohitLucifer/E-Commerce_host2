@@ -97,7 +97,7 @@ const CartPage = () => {
   const handlePayment = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.post("/api/v1/product/braintree/payment", {
+      const { data } = await axios.post("https://e-commerce-host2.onrender.com/api/v1/product/braintree/payment", {
         cart
       });
       setLoading(false);

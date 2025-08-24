@@ -32,7 +32,7 @@ const Profile = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const { data } = await axios.put("/api/v1/auth/profile", {
+      const { data } = await axios.put("https://e-commerce-host2.onrender.com/api/v1/auth/profile", {
         name,
         email,
         password,
