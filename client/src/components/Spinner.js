@@ -21,9 +21,11 @@ const Spinner = ({path = 'login'}) => {
         className="d-flex flex-column justify-content-center align-items-center"
         style={{ height: "100vh" }}
       >
-        <h1 className="Text-center">redirecting to you in {count} second </h1>
-        <div className="spinner-border" role="status">
-          <span className="visually-hidden">Loading...</span>
+        <div className="modern-spinner-message">
+          <span className="redirect-text">Redirecting you in <span className="redirect-count">{count}</span> second{count !== 1 ? 's' : ''}...</span>
+        </div>
+        <div className="modern-spinner">
+          <div className="modern-spinner-circle"></div>
         </div>
       </div>
     </>

@@ -6,6 +6,47 @@
   box-sizing: border-box;
 }
 
+/* Modern Spinner Styles */
+.modern-spinner-message {
+  margin-bottom: 32px;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.5rem;
+  color: #764ba2;
+  background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-align: center;
+  font-weight: 600;
+}
+.redirect-count {
+  font-size: 2rem;
+  color: #ffd700;
+  font-weight: bold;
+  margin: 0 4px;
+}
+.modern-spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80px;
+}
+.modern-spinner-circle {
+  width: 64px;
+  height: 64px;
+  border: 6px solid #e3eafc;
+  border-top: 6px solid #764ba2;
+  border-radius: 50%;
+  animation: modern-spin 1s linear infinite;
+  background: transparent;
+  box-shadow: 0 4px 24px rgba(102, 126, 234, 0.18);
+}
+@keyframes modern-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+
 /* font-family: 'Poppins', sans-serif; */
 /* font-family: 'Playfair Display', serif; */
 
