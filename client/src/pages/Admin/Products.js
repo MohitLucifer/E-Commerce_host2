@@ -79,7 +79,7 @@ const Products = () => {
     if (imageErrors[product._id]) {
       return null; // Will show fallback
     }
-    return `/api/v1/product/product-photo/${product._id}`;
+    return `https://e-commerce-host2.onrender.com/api/v1/product/product-photo/${product._id}`;
   };
 
   return (

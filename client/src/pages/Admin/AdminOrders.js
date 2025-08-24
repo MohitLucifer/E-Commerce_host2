@@ -254,7 +254,7 @@ const AdminOrders = () => {
                           <div key={product._id} className="product-item">
                             <div className="product-image">
                               <img
-                                src={`/api/v1/product/product-photo/${product._id}`}
+                                src={`https://e-commerce-host2.onrender.com/api/v1/product/product-photo/${product._id}`}
                                 alt={product.name}
                               />
                             </div>

@@ -27,9 +27,9 @@ const ProductDetails = () => {
 
   // Mock product images for demonstration
   const productImages = [
-    `/api/v1/product/product-photo/${product._id}`,
-    `/api/v1/product/product-photo/${product._id}`,
-    `/api/v1/product/product-photo/${product._id}`,
+    `https://e-commerce-host2.onrender.com/api/v1/product/product-photo/${product._id}`,
+    `https://e-commerce-host2.onrender.com/api/v1/product/product-photo/${product._id}`,
+    `https://e-commerce-host2.onrender.com/api/v1/product/product-photo/${product._id}`,
   ];
 
   //initial details
@@ -240,7 +240,7 @@ const ProductDetails = () => {
                 <div className="modern-product-card" key={p._id}>
                   <div className="product-image-container">
                     <img
-                      src={`/api/v1/product/product-photo/${p?._id}`}
+                      src={`https://e-commerce-host2.onrender.com/api/v1/product/product-photo/${p?._id}`}
                       className="product-image"
                       alt={p.name}
                     />

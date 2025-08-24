@@ -167,7 +167,7 @@ const CartPage = () => {
                 >
                   <div className="item-image">
                     <img
-                      src={`/api/v1/product/product-photo/${item._id}`}
+                      src={`https://e-commerce-host2.onrender.com/api/v1/product/product-photo/${item._id}`}
                       alt={item.name}
                     />
                   </div>
