@@ -55,15 +55,15 @@ const Categories = () => {
             <div className="category-stats">
               <div className="stat-item">
                 <FaStar />
-                <span>{categories.length} Categories</span>
+                <span style={{ color: "black" }}>{categories.length} Categories</span>
               </div>
               <div className="stat-item">
                 <FaShoppingBag />
-                <span>Premium Products</span>
+                <span style={{ color: "black" }}>Premium Products</span>
               </div>
               <div className="stat-item">
                 <FaHome />
-                <span>Fast Delivery</span>
+                <span style={{ color: "black" }}>Fast Delivery</span>
               </div>
             </div>
           </div>
