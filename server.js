@@ -32,13 +32,13 @@ app.get("/", (req, res) => {
   res.send("<h1>Welcome to ecommerce app</h1>");
 });
 
-//PORT
+// PORT
 const PORT = process.env.PORT || 8080;
+const MODE = process.env.NODE_ENV || "development";
 
-//run listen
+// start server
 app.listen(PORT, () => {
   console.log(
-    `Server Running on ${process.env.DEV_MODE} mode on port ${PORT}`.bgCyan
-      .white
+    `Server running in ${MODE} mode on port ${PORT}`.bgCyan.white
   );
 });
