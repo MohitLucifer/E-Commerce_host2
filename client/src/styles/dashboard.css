@@ -164,10 +164,9 @@
   color: var(--txt-hi);
 }
 .welcome-title .user-name {
-  background: var(--grad-text);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: var(--teal);
+  -webkit-text-fill-color: var(--teal);
+  background: none;
 }
 .welcome-subtitle {
   color: var(--txt-mut);
@@ -212,7 +211,7 @@
   color: var(--pink);
 }
 .stat-number {
-  font-family: "Sora", sans-serif;
+  font-family: "Archivo", sans-serif;
   font-weight: 800;
   font-size: 1.5rem;
   margin: 0;
@@ -331,7 +330,7 @@
   border-radius: 18px;
   display: grid;
   place-items: center;
-  font-family: "Sora", sans-serif;
+  font-family: "Archivo", sans-serif;
   font-weight: 800;
   font-size: 1.3rem;
   background: var(--grad-accent);
@@ -434,7 +433,7 @@
   background: var(--grad-accent) !important;
   color: #04121a !important;
   border-radius: var(--radius-sm);
-  font-family: "Sora", sans-serif;
+  font-family: "Archivo", sans-serif;
   font-weight: 800;
 }
 
@@ -449,7 +448,7 @@
   text-align: center;
 }
 .pnf-title {
-  font-family: "Sora", sans-serif;
+  font-family: "Archivo", sans-serif;
   font-size: clamp(5rem, 16vw, 10rem);
   font-weight: 800;
   line-height: 1;
@@ -639,4 +638,273 @@
 .stat-label,
 .info-label {
   color: var(--txt-mut) !important;
+}
+
+/* ============================================================
+   RADIAN admin/user content re-skin — legacy index.css paints
+   these as white cards with purple/blue accents. Dark glass +
+   acid yellow everywhere. !important beats legacy specificity.
+   ============================================================ */
+
+/* Shared page headers + panels */
+.admin-header,
+.orders-header,
+.filters-section,
+.create-product-form,
+.welcome-section,
+.user-info-card,
+.quick-actions,
+.loading-container,
+.empty-products,
+.empty-orders,
+.empty-users {
+  background: var(--glass-bg) !important;
+  border: 1px solid var(--glass-brd) !important;
+  border-radius: var(--radius) !important;
+  box-shadow: var(--shadow-card) !important;
+  backdrop-filter: blur(16px);
+  color: var(--txt) !important;
+}
+.admin-title,
+.orders-title,
+.welcome-title,
+.form-title,
+.section-title {
+  color: var(--txt-hi) !important;
+  -webkit-text-fill-color: var(--txt-hi) !important;
+  background: none !important;
+}
+.admin-subtitle,
+.orders-subtitle,
+.welcome-subtitle,
+.results-summary {
+  color: var(--txt-mut) !important;
+}
+.admin-title svg,
+.orders-title svg,
+.empty-icon {
+  color: var(--teal) !important;
+}
+
+/* Header stat chips */
+.header-stats .stat-item,
+.orders-stats .stat-item {
+  background: var(--glass-bg-strong) !important;
+  border: 1px solid var(--glass-brd) !important;
+  border-radius: var(--radius-sm) !important;
+}
+.stat-number {
+  color: var(--teal) !important;
+}
+.stat-label {
+  color: var(--txt-mut) !important;
+}
+
+/* Search + filters */
+.search-box,
+.filter-box {
+  background: var(--glass-bg) !important;
+  border: 1px solid var(--glass-brd) !important;
+  border-radius: var(--radius-sm) !important;
+}
+.search-box svg,
+.filter-box svg {
+  color: var(--txt-mut) !important;
+}
+.search-input,
+.filter-select,
+.status-select {
+  background: transparent !important;
+  border: none !important;
+  color: var(--txt-hi) !important;
+}
+.search-input::placeholder {
+  color: var(--txt-mut) !important;
+}
+.filter-select option,
+.status-select option {
+  background: var(--bg-panel);
+  color: var(--txt-hi);
+}
+
+/* Content cards: products / users / orders */
+.product-card,
+.user-card,
+.order-card {
+  background: var(--glass-bg) !important;
+  border: 1px solid var(--glass-brd) !important;
+  border-radius: var(--radius) !important;
+  box-shadow: var(--shadow-card) !important;
+  backdrop-filter: blur(16px);
+  color: var(--txt) !important;
+}
+.product-card:hover,
+.user-card:hover,
+.order-card:hover {
+  border-color: var(--glass-brd-hi) !important;
+  box-shadow: var(--shadow-card), var(--shadow-glow) !important;
+  transform: translateY(-3px);
+}
+.product-name,
+.user-name,
+.order-number,
+.card-title,
+.info-value,
+.detail-item .value,
+.meta-item .value,
+.summary-item .value {
+  color: var(--txt-hi) !important;
+}
+.product-description,
+.order-date,
+.contact-item,
+.info-label,
+.detail-item .label,
+.meta-item .label,
+.summary-item .label {
+  color: var(--txt-mut) !important;
+}
+.product-price,
+.order-total,
+.product-meta .value {
+  color: var(--teal) !important;
+}
+.product-badge {
+  background: rgba(253, 235, 7, 0.14) !important;
+  border: 1px solid rgba(253, 235, 7, 0.4) !important;
+  color: var(--teal) !important;
+  border-radius: var(--radius-btn) !important;
+}
+.product-status,
+.status-badge,
+.role-badge {
+  border-radius: var(--radius-btn) !important;
+}
+.user-avatar {
+  background: var(--teal) !important;
+  color: var(--ink) !important;
+  border-radius: var(--radius-sm) !important;
+}
+.user-name-section a,
+.user-card a {
+  color: var(--teal) !important;
+}
+
+/* Buttons: purple/blue/round -> Radian squared */
+.add-product-btn,
+.add-first-product-btn,
+.create-btn,
+.save-btn,
+.shop-now-btn {
+  background: var(--teal) !important;
+  color: var(--ink) !important;
+  border: none !important;
+  border-radius: var(--radius-btn) !important;
+  box-shadow: var(--shadow-glow) !important;
+  font-weight: 600 !important;
+}
+.add-product-btn:hover,
+.add-first-product-btn:hover,
+.create-btn:hover:not(:disabled),
+.save-btn:hover,
+.shop-now-btn:hover {
+  background: #fff44f !important;
+  color: var(--ink) !important;
+  transform: translateY(-1px);
+}
+.cancel-btn,
+.clear-btn,
+.view-details-btn,
+.security-btn {
+  background: var(--glass-bg-strong) !important;
+  color: var(--txt-hi) !important;
+  border: 1px solid var(--glass-brd) !important;
+  border-radius: var(--radius-btn) !important;
+}
+.cancel-btn:hover,
+.clear-btn:hover,
+.view-details-btn:hover,
+.security-btn:hover {
+  border-color: var(--glass-brd-hi) !important;
+  color: var(--teal) !important;
+}
+.action-btn {
+  border-radius: var(--radius-btn) !important;
+  border: 1px solid var(--glass-brd) !important;
+  background: var(--glass-bg-strong) !important;
+  color: var(--txt-hi) !important;
+}
+.action-btn.view,
+.action-btn.edit {
+  color: var(--teal) !important;
+}
+.action-btn.delete {
+  background: rgba(255, 92, 53, 0.12) !important;
+  border-color: rgba(255, 92, 53, 0.45) !important;
+  color: #ff8a6b !important;
+}
+.action-btn:hover {
+  border-color: var(--glass-brd-hi) !important;
+}
+
+/* Create Product form */
+.create-product-form .form-label,
+.create-product-form .form-label svg {
+  color: var(--txt) !important;
+}
+.upload-label {
+  background: var(--glass-bg) !important;
+  border: 2px dashed var(--glass-brd) !important;
+  border-radius: var(--radius) !important;
+  color: var(--txt-mut) !important;
+}
+.upload-label:hover {
+  border-color: var(--glass-brd-hi) !important;
+  color: var(--teal) !important;
+}
+.upload-label svg {
+  color: var(--teal) !important;
+}
+.modern-select .ant-select-selector {
+  background: var(--glass-bg) !important;
+  border: 1px solid var(--glass-brd) !important;
+  border-radius: var(--radius-sm) !important;
+  color: var(--txt-hi) !important;
+}
+.modern-select .ant-select-selection-placeholder,
+.modern-select .ant-select-arrow {
+  color: var(--txt-mut) !important;
+}
+
+/* Order internals */
+.order-header,
+.order-summary,
+.product-item {
+  background: transparent !important;
+  border-color: var(--glass-brd) !important;
+}
+.product-item .product-name,
+.order-customer {
+  color: var(--txt-hi) !important;
+}
+.timeline-content,
+.timeline-icon {
+  color: var(--txt) !important;
+}
+
+/* Legacy tables (CreateCategory / UpdateProduct pages) */
+.admin-content .table,
+.dashboard-content .table {
+  color: var(--txt) !important;
+  background: transparent !important;
+}
+.admin-content .table th {
+  background: var(--bg-panel) !important;
+  color: var(--txt-hi) !important;
+  border-color: var(--glass-brd) !important;
+}
+.admin-content .table td {
+  background: var(--glass-bg) !important;
+  color: var(--txt) !important;
+  border-color: var(--glass-brd) !important;
 }
