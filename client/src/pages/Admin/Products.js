@@ -212,31 +212,38 @@ const Products = () => {
                     </div>
                     
                     <div className="product-info">
+                      <span className="product-eyebrow">
+                        {product.category?.name}
+                      </span>
                       <h3 className="product-name">{product.name}</h3>
                       <p className="product-description">
                         {product.description.substring(0, 100)}...
                       </p>
-                      
-                      <div className="product-meta">
-                        <div className="meta-item">
-                          <span className="label">Price:</span>
-                          <span className="value price">${product.price}</span>
+
+                      <div className="product-foot">
+                        <div className="product-foot-left">
+                          <span className="product-price-lg">
+                            ${product.price}
+                          </span>
+                          <span
+                            className={`product-stock ${
+                              product.quantity > 0 ? "ok" : "out"
+                            }`}
+                          >
+                            <span className="dot" aria-hidden="true" />
+                            {product.quantity > 0
+                              ? `${product.quantity} In Stock`
+                              : "Out of Stock"}
+                          </span>
                         </div>
-                        <div className="meta-item">
-                          <span className="label">Quantity:</span>
-                          <span className="value quantity">{product.quantity}</span>
-                        </div>
-                        <div className="meta-item">
-                          <span className="label">Category:</span>
-                          <span className="value category">{product.category?.name}</span>
-                  </div>
-                </div>
-                      
-                      <div className="product-status">
-                        <span className={`status ${product.quantity > 0 ? 'in-stock' : 'out-of-stock'}`}>
-                          {product.quantity > 0 ? 'In Stock' : 'Out of Stock'}
-                        </span>
-          </div>
+                        <Link
+                          to={`/dashboard/admin/product/${product.slug}`}
+                          className="product-edit-btn"
+                          aria-label={`Edit ${product.name}`}
+                        >
+                          <FaEdit />
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 ))}

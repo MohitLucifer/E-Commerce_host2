@@ -1129,3 +1129,33 @@ a:hover {
     transform: none;
   }
 }
+
+/* ---- Navbar v2 (mockup): gold-gradient search + user chip ---- */
+.search-section .btn,
+.search-form .btn,
+.modern-search-btn {
+  background: linear-gradient(180deg, #fff057 0%, #e6d500 55%, #cdbd00 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  border-radius: var(--radius-sm) !important;
+  box-shadow: 0 6px 18px -6px rgba(253, 235, 7, 0.45) !important;
+}
+.nav-link.user-menu {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.8rem 0.35rem 0.4rem !important;
+  border-radius: 999px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-brd);
+}
+.user-chip-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--glass-bg-strong);
+  border: 1px solid var(--glass-brd);
+  color: var(--txt-hi);
+  font-size: 0.8rem;
+}

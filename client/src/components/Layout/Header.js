@@ -33,6 +33,13 @@ const Header = () => {
     toast.success("Logout Successfully");
   };
 
+  // "Mohit Kumar" -> "Mohit K."
+  const shortName = (name) => {
+    if (!name) return "";
+    const parts = name.trim().split(/\s+/);
+    return parts.length > 1 ? `${parts[0]} ${parts[1][0]}.` : parts[0];
+  };
+
   return (
     <>
       <nav className={`modern-navbar ${isScrolled ? 'scrolled' : ''}`}>
@@ -117,8 +124,10 @@ const Header = () => {
                     data-bs-toggle="dropdown"
                     onClick={() => setIsMobileMenuOpen(false)}
                   >
-                    <FaUser className="user-icon" />
-                    <span>{auth?.user?.name}</span>
+                    <span className="user-chip-avatar">
+                      <FaUser aria-hidden="true" />
+                    </span>
+                    <span>{shortName(auth?.user?.name)}</span>
                   </NavLink>
                   <ul className="dropdown-menu user-dropdown">
                     <li>

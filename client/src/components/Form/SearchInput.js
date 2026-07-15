@@ -139,7 +139,7 @@ const SearchInput = () => {
           <input
             className="modern-search-input"
             type="search"
-            placeholder="Search products..."
+            placeholder="Search products, brands, or categories..."
             aria-label="Search"
             value={values.keyword}
             onChange={handleInputChange}

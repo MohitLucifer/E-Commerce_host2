@@ -205,19 +205,12 @@ const Users = () => {
                         </div>
                       </div>
                       <div className="user-actions">
-                        <button 
-                          className="action-btn view"
-                          onClick={() => setSelectedUser(selectedUser === user._id ? null : user._id)}
-                        >
-                          <FaEye />
-                          <span>{selectedUser === user._id ? 'Hide' : 'View'} Details</span>
-                        </button>
                         <button className="action-btn edit">
                           <FaEdit />
                           <span>Edit</span>
                         </button>
                         {user.role !== 'admin' && (
-                          <button 
+                          <button
                             className="action-btn delete"
                             onClick={() => handleDeleteUser(user._id)}
                           >
@@ -227,45 +220,6 @@ const Users = () => {
                         )}
                       </div>
                     </div>
-
-                    {/* User Details (Expandable) */}
-                    {selectedUser === user._id && (
-                      <div className="user-details">
-                        <div className="details-grid">
-                          <div className="detail-item">
-                            <label>User ID:</label>
-                            <span>{user._id}</span>
-                          </div>
-                          <div className="detail-item">
-                            <label>Registration Date:</label>
-                            <span>{moment(user.createdAt).format('MMM DD, YYYY HH:mm')}</span>
-                          </div>
-                          <div className="detail-item">
-                            <label>Last Updated:</label>
-                            <span>{moment(user.updatedAt).format('MMM DD, YYYY HH:mm')}</span>
-                          </div>
-                          <div className="detail-item">
-                            <label>Email Verified:</label>
-                            <span className={user.verified ? 'verified' : 'unverified'}>
-                              {user.verified ? 'Yes' : 'No'}
-                            </span>
-                          </div>
-                          <div className="detail-item">
-                            <label>Account Status:</label>
-                            <span className={user.active ? 'active' : 'inactive'}>
-                              {user.active ? 'Active' : 'Inactive'}
-                            </span>
-                          </div>
-                        </div>
-                        
-                        {user.address && (
-                          <div className="address-section">
-                            <h4>Address Information</h4>
-                            <p>{user.address}</p>
-                          </div>
-                        )}
-                      </div>
-                    )}
                   </div>
                 ))}
               </div>
