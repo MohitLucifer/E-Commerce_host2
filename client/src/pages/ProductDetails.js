@@ -1,18 +1,25 @@
 import React, { useState, useEffect } from "react";
 import Layout from "./../components/Layout/Layout";
 import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useCart } from "../context/cart";
 import toast from "react-hot-toast";
-import { 
-  FaShoppingCart, 
-  FaHeart, 
-  FaShare, 
-  FaStar, 
-  FaTruck, 
-  FaShieldAlt, 
-  FaUndo 
-} from 'react-icons/fa';
+import ProductCard from "../components/ProductCard";
+import {
+  FaShoppingCart,
+  FaHeart,
+  FaShare,
+  FaTruck,
+  FaShieldAlt,
+  FaUndo,
+} from "react-icons/fa";
+
+const API = "https://e-commerce-host2.onrender.com";
+
+const formatPrice = (value) =>
+  typeof value === "number"
+    ? value.toLocaleString("en-US", { style: "currency", currency: "USD" })
+    : value;
 
 const ProductDetails = () => {
   const params = useParams();
@@ -20,21 +27,14 @@ const ProductDetails = () => {
   const [cart, setCart] = useCart();
   const [product, setProduct] = useState({});
   const [relatedProducts, setRelatedProducts] = useState([]);
-  const [selectedImage, setSelectedImage] = useState(0);
   const [quantity, setQuantity] = useState(1);
   const [isWishlisted, setIsWishlisted] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  // Mock product images for demonstration
-  const productImages = [
-    `https://e-commerce-host2.onrender.com/api/v1/product/product-photo/${product._id}`,
-    `https://e-commerce-host2.onrender.com/api/v1/product/product-photo/${product._id}`,
-    `https://e-commerce-host2.onrender.com/api/v1/product/product-photo/${product._id}`,
-  ];
-
   //initial details
   useEffect(() => {
     if (params?.slug) getProduct();
+    // eslint-disable-next-line
   }, [params?.slug]);
 
   //getProduct
@@ -42,7 +42,7 @@ const ProductDetails = () => {
     try {
       setLoading(true);
       const { data } = await axios.get(
-        `https://e-commerce-host2.onrender.com/api/v1/product/get-product/${params.slug}`
+        `${API}/api/v1/product/get-product/${params.slug}`
       );
       setProduct(data?.product);
       getSimilarProduct(data?.product._id, data?.product.category._id);
@@ -57,7 +57,7 @@ const ProductDetails = () => {
   const getSimilarProduct = async (pid, cid) => {
     try {
       const { data } = await axios.get(
-        `https://e-commerce-host2.onrender.com/api/v1/product/related-product/${pid}/${cid}`
+        `${API}/api/v1/product/related-product/${pid}/${cid}`
       );
       setRelatedProducts(data?.products);
     } catch (error) {
@@ -67,9 +67,32 @@ const ProductDetails = () => {
 
   const handleAddToCart = () => {
     const productWithQuantity = { ...product, quantity };
-    setCart([...cart, productWithQuantity]);
-    localStorage.setItem("cart", JSON.stringify([...cart, productWithQuantity]));
+    const next = [...cart, productWithQuantity];
+    setCart(next);
+    localStorage.setItem("cart", JSON.stringify(next));
     toast.success(`${quantity} item(s) added to cart!`);
+  };
+
+  const handleBuyNow = () => {
+    handleAddToCart();
+    navigate("/cart");
+  };
+
+  const handleAddRelated = (p) => {
+    const existingItemIndex = cart.findIndex((item) => item._id === p._id);
+    if (existingItemIndex !== -1) {
+      const updatedCart = [...cart];
+      updatedCart[existingItemIndex].quantity =
+        (updatedCart[existingItemIndex].quantity || 1) + 1;
+      setCart(updatedCart);
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
+      toast.success("Quantity increased in cart");
+    } else {
+      const newItem = { ...p, quantity: 1 };
+      setCart([...cart, newItem]);
+      localStorage.setItem("cart", JSON.stringify([...cart, newItem]));
+      toast.success("Item Added to cart");
+    }
   };
 
   const handleWishlist = () => {
@@ -93,103 +116,110 @@ const ProductDetails = () => {
   if (loading) {
     return (
       <Layout>
-        <div className="product-details-loading">
-          <div className="loading-spinner"></div>
-          <p>Loading product details...</p>
+        <div className="product-details-loading" role="status" aria-live="polite">
+          <div className="loading-spinner" aria-hidden="true"></div>
+          <p>Loading product details…</p>
         </div>
       </Layout>
     );
   }
 
   return (
-    <Layout>
-      <div className="modern-product-details">
-        {/* Product Main Section */}
-        <div className="product-details-container">
-          {/* Product Images */}
+    <Layout title={product?.name ? `${product.name} - Details` : "Product"}>
+      <main className="modern-product-details">
+        <section className="product-details-container" aria-label="Product">
+          {/* Product image */}
           <div className="product-images-section">
             <div className="main-image-container">
               <img
-                src={productImages[selectedImage]}
+                src={`${API}/api/v1/product/product-photo/${product._id}`}
                 className="main-product-image"
-                alt={product.name}
+                alt={product.name || "Product image"}
+                loading="eager"
               />
               <div className="image-overlay">
-                <button className="wishlist-btn" onClick={handleWishlist}>
-                  <FaHeart className={isWishlisted ? "wishlisted" : ""} />
+                <button
+                  type="button"
+                  className="icon-btn"
+                  onClick={handleWishlist}
+                  aria-pressed={isWishlisted}
+                  aria-label={
+                    isWishlisted ? "Remove from wishlist" : "Add to wishlist"
+                  }
+                >
+                  <FaHeart className={isWishlisted ? "wishlisted" : ""} aria-hidden="true" />
                 </button>
-                <button className="share-btn" onClick={handleShare}>
-                  <FaShare />
+                <button
+                  type="button"
+                  className="icon-btn"
+                  onClick={handleShare}
+                  aria-label="Share product"
+                >
+                  <FaShare aria-hidden="true" />
                 </button>
               </div>
-            </div>
-            <div className="thumbnail-images">
-              {productImages.map((img, index) => (
-                <div
-                  key={index}
-                  className={`thumbnail ${selectedImage === index ? 'active' : ''}`}
-                  onClick={() => setSelectedImage(index)}
-                >
-                  <img src={img} alt={`${product.name} ${index + 1}`} />
-                </div>
-              ))}
             </div>
           </div>
 
-          {/* Product Information */}
+          {/* Product information */}
           <div className="product-info-section">
-            <div className="product-header">
-              <h1 className="product-title">{product.name}</h1>
-              <div className="product-rating">
-                <div className="stars">
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <FaStar key={star} className="star-icon" />
-                  ))}
-                </div>
-                <span className="rating-text">4.8 (2,456 reviews)</span>
-              </div>
-            </div>
+            <nav className="pd-breadcrumb" aria-label="Breadcrumb">
+              <Link to="/">Home</Link>
+              <span className="sep" aria-hidden="true">/</span>
+              {product?.category?.slug ? (
+                <Link to={`/category/${product.category.slug}`}>
+                  {product.category.name}
+                </Link>
+              ) : (
+                <span>{product?.category?.name}</span>
+              )}
+              <span className="sep" aria-hidden="true">/</span>
+              <span className="current">{product.name}</span>
+            </nav>
+
+            <h1 className="product-title">{product.name}</h1>
 
             <div className="product-price-section">
-              <div className="price-container">
-                <span className="currency">$</span>
-                <span className="price">{product.price}</span>
-                <span className="original-price">$699</span>
-                <span className="discount">-14%</span>
+              <div className="pd-price-row">
+                <span className="price">{formatPrice(product.price)}</span>
+                <span className="pd-stock">
+                  <span className="dot" aria-hidden="true" /> In stock
+                </span>
               </div>
-              <p className="price-note">Free shipping • In stock</p>
+              <p className="price-note">Free shipping • 30-day returns</p>
             </div>
 
             <div className="product-description">
-              <h3>Description</h3>
+              <h2>Description</h2>
               <p>{product.description}</p>
             </div>
 
-            <div className="product-category">
-              <span className="category-label">Category:</span>
-              <span className="category-name">{product?.category?.name}</span>
-            </div>
-
             <div className="quantity-section">
-              <label htmlFor="quantity">Quantity:</label>
+              <label htmlFor="quantity">Quantity</label>
               <div className="quantity-controls">
                 <button
+                  type="button"
                   className="quantity-btn"
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                  aria-label="Decrease quantity"
                 >
-                  -
+                  −
                 </button>
                 <input
                   type="number"
                   id="quantity"
                   value={quantity}
-                  onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
+                  onChange={(e) =>
+                    setQuantity(Math.max(1, parseInt(e.target.value, 10) || 1))
+                  }
                   min="1"
                   className="quantity-input"
                 />
                 <button
+                  type="button"
                   className="quantity-btn"
                   onClick={() => setQuantity(quantity + 1)}
+                  aria-label="Increase quantity"
                 >
                   +
                 </button>
@@ -197,101 +227,56 @@ const ProductDetails = () => {
             </div>
 
             <div className="product-actions">
-              <button className="add-to-cart-btn" onClick={handleAddToCart}>
-                <FaShoppingCart />
-                Add to Cart
+              <button type="button" className="add-to-cart-btn" onClick={handleAddToCart}>
+                <FaShoppingCart aria-hidden="true" />
+                Add to cart
               </button>
-              <button className="buy-now-btn">
-                Buy Now
+              <button type="button" className="buy-now-btn" onClick={handleBuyNow}>
+                Buy now
               </button>
             </div>
 
-            <div className="product-features">
-              <div className="feature">
-                <FaTruck />
-                <span>Free Shipping</span>
-              </div>
-              <div className="feature">
-                <FaShieldAlt />
-                <span>Secure Payment</span>
-              </div>
-              <div className="feature">
-                <FaUndo />
-                <span>Easy Returns</span>
-              </div>
-            </div>
+            <ul className="product-features">
+              <li className="feature">
+                <FaTruck aria-hidden="true" />
+                <span>Free shipping</span>
+              </li>
+              <li className="feature">
+                <FaShieldAlt aria-hidden="true" />
+                <span>Secure payment</span>
+              </li>
+              <li className="feature">
+                <FaUndo aria-hidden="true" />
+                <span>Easy returns</span>
+              </li>
+            </ul>
           </div>
-        </div>
+        </section>
 
-        {/* Similar Products Section */}
-        <div className="similar-products-section">
-          <div className="section-header">
-            <h2>Similar Products</h2>
-            <p>You might also like these products</p>
-          </div>
-          
+        {/* Similar products */}
+        <section className="similar-products-section" aria-labelledby="similar-heading">
+          <h2 id="similar-heading" className="similar-title">
+            You might also like
+          </h2>
+
           {relatedProducts.length < 1 ? (
             <div className="no-products">
-              <p>No similar products found</p>
+              <p>No similar products found.</p>
             </div>
           ) : (
-            <div className="product-grid">
-              {relatedProducts?.map((p) => (
-                <div className="modern-product-card" key={p._id}>
-                  <div className="product-image-container">
-                    <img
-                      src={`https://e-commerce-host2.onrender.com/api/v1/product/product-photo/${p?._id}`}
-                      className="product-image"
-                      alt={p.name}
-                    />
-                  </div>
-                  <div className="product-card-body">
-                    <div className="product-header">
-                      <h5 className="product-title">{p.name}</h5>
-                      <p className="product-price">${p.price}</p>
-                    </div>
-                    <p className="product-description">
-                      {p.description.substring(0, 120)}...
-                    </p>
-                    <div className="product-actions">
-                      <button
-                        className="product-btn product-btn-primary"
-                        onClick={() => navigate(`/product/${p.slug}`)}
-                      >
-                        More Details
-                      </button>
-                      <button 
-                        className="product-btn product-btn-secondary"
-                        onClick={() => {
-                          // Check if item already exists in cart
-                          const existingItemIndex = cart.findIndex(item => item._id === p._id);
-                          
-                          if (existingItemIndex !== -1) {
-                            // Item exists, increase quantity
-                            const updatedCart = [...cart];
-                            updatedCart[existingItemIndex].quantity = (updatedCart[existingItemIndex].quantity || 1) + 1;
-                            setCart(updatedCart);
-                            localStorage.setItem("cart", JSON.stringify(updatedCart));
-                            toast.success("Quantity increased in cart");
-                          } else {
-                            // New item, add with quantity 1
-                            const newItem = { ...p, quantity: 1 };
-                            setCart([...cart, newItem]);
-                            localStorage.setItem("cart", JSON.stringify([...cart, newItem]));
-                            toast.success("Item Added to cart");
-                          }
-                        }}
-                      >
-                        ADD TO CART
-                      </button>
-                    </div>
-                  </div>
-                </div>
+            <div className="pc-grid">
+              {relatedProducts?.map((p, i) => (
+                <ProductCard
+                  key={p._id}
+                  product={p}
+                  index={i}
+                  onAddToCart={handleAddRelated}
+                />
               ))}
             </div>
           )}
-        </div>
-      </div>
+        </section>
+      </main>
     </Layout>
   );
 };

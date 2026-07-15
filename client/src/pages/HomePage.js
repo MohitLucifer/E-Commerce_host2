@@ -1,23 +1,22 @@
 import React, { useState, useEffect } from "react";
 import Layout from "./../components/Layout/Layout";
-import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Checkbox, Radio } from "antd";
 import { Prices } from "../components/Prices";
 import { useCart } from "../context/cart";
 import toast from "react-hot-toast";
 import "../styles/HomePage.css";
-import { DownOutlined, RightOutlined } from '@ant-design/icons';
+import { DownOutlined, RightOutlined } from "@ant-design/icons";
+import HeroSection from "../components/HeroSection";
+import ProductCard from "../components/ProductCard";
 
 const sortOptions = [
   { label: "Relevance", value: "relevance" },
   { label: "Popularity", value: "popularity" },
-  { label: "Price -- Low to High", value: "priceLowHigh" },
-  { label: "Price -- High to Low", value: "priceHighLow" },
+  { label: "Price: Low to High", value: "priceLowHigh" },
+  { label: "Price: High to Low", value: "priceHighLow" },
 ];
 
 const HomePage = () => {
-  const navigate = useNavigate();
   const [cart, setCart] = useCart();
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -142,267 +141,196 @@ const HomePage = () => {
     // eslint-disable-next-line
   }, [sortBy, products.length]);
 
-  return (
-    <Layout title={"ALl Products - Best offers "}>
-      <div className="row justify-content-center align-items-center" style={{ marginTop: "30px" }}>
-        <div className="col-lg-2 d-none d-lg-block">
-          <div className="carousel-side-panel left-panel">
-            <div className="panel-content">
-              <h6>Trending</h6>
-              <ul>
-                <li>Smartphones</li>
-                <li>Winter Wear</li>
-                <li>Kids Fashion</li>
-                <li>Smart Watches</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div className="col-lg-8 col-md-12">
-          <div
-            id="carouselExampleCaptions"
-            className="carousel slide modern-carousel"
-            data-bs-ride="carousel"
-            style={{
-              padding: 0,
-              margin: "0 auto",
-              maxWidth: "100%",
-              borderRadius: "24px",
-              boxShadow: "0 4px 24px rgba(0,0,0,0.14)",
-              overflow: "hidden",
-            }}
-          >
-            <div className="carousel-indicators">
-              <button
-                type="button"
-                data-bs-target="#carouselExampleCaptions"
-                data-bs-slide-to={0}
-                className="active"
-                aria-current="true"
-                aria-label="Slide 1"
-              />
-              <button
-                type="button"
-                data-bs-target="#carouselExampleCaptions"
-                data-bs-slide-to={1}
-                aria-label="Slide 2"
-              />
-              <button
-                type="button"
-                data-bs-target="#carouselExampleCaptions"
-                data-bs-slide-to={2}
-                aria-label="Slide 3"
-              />
-            </div>
-            <div className="carousel-inner" style={{ minHeight: "340px" }}>
-              <div className="carousel-item active">
-                <img
-                  src="/images/moto1.jpg"
-                  className="d-block w-100 carousel-img"
-                  alt="Moto"
-                />
-                <div className="carousel-caption d-none d-md-block">
-                  <h5>Ecommerce Shopping</h5>
-                </div>
-              </div>
-              <div className="carousel-item">
-                <img
-                  src="/images/vivo1.jpg"
-                  className="d-block w-100 carousel-img"
-                  alt="VIVO V29 PRO"
-                />
-                <div className="carousel-caption d-none d-md-block">
-                  <h5>VIVO V29 PRO</h5>
-                </div>
-              </div>
-              <div className="carousel-item">
-                <img
-                  src="/images/br2.jpg"
-                  className="d-block w-100 carousel-img"
-                  alt="FIRE BOLT"
-                />
-                <div className="carousel-caption d-none d-md-block">
-                  <h5>FIRE BOLT</h5>
-                </div>
-              </div>
-            </div>
-            <button
-              className="carousel-control-prev modern-arrow"
-              type="button"
-              data-bs-target="#carouselExampleCaptions"
-              data-bs-slide="prev"
-            >
-              <span className="carousel-control-prev-icon" aria-hidden="true" />
-            </button>
-            <button
-              className="carousel-control-next modern-arrow"
-              type="button"
-              data-bs-target="#carouselExampleCaptions"
-              data-bs-slide="next"
-            >
-              <span className="carousel-control-next-icon" aria-hidden="true" />
-            </button>
-          </div>
-        </div>
-        <div className="col-lg-2 d-none d-lg-block">
-          <div className="carousel-side-panel right-panel">
-            <div className="panel-content">
-              <h6>Offers</h6>
-              <ul>
-                <li>Up to 50% Off</li>
-                <li>New Arrivals</li>
-                <li>Best Sellers</li>
-                <li>Free Shipping</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
+  const handleAddToCart = (p) => {
+    const existingItemIndex = cart.findIndex((item) => item._id === p._id);
+    if (existingItemIndex !== -1) {
+      const updatedCart = [...cart];
+      updatedCart[existingItemIndex].quantity =
+        (updatedCart[existingItemIndex].quantity || 1) + 1;
+      setCart(updatedCart);
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
+      toast.success("Quantity increased in cart");
+    } else {
+      const newItem = { ...p, quantity: 1 };
+      setCart([...cart, newItem]);
+      localStorage.setItem("cart", JSON.stringify([...cart, newItem]));
+      toast.success("Item Added to cart");
+    }
+  };
 
-      <div className="container-fluid row mt-3">
-        <div className="col-md-2 filter-card">
-          <div className="filter-section">
-            <div className="filter-header" onClick={() => setCategoryOpen(!categoryOpen)}>
-              Filter By Category
-              {categoryOpen ? <DownOutlined /> : <RightOutlined />}
+  const activeFilters = checked.length + (radio.length ? 1 : 0);
+
+  return (
+    <Layout title={"All Products - Best offers"}>
+      <HeroSection />
+
+      <section className="shop" id="products" aria-labelledby="shop-heading">
+        <aside className="shop-rail" aria-label="Product filters">
+          <div className="rail-inner">
+            <div className="rail-top">
+              <h2 className="rail-title">Refine</h2>
+              {activeFilters > 0 && (
+                <span className="rail-count" aria-live="polite">
+                  {activeFilters} active
+                </span>
+              )}
             </div>
-            <div className={`filter-list ${categoryOpen ? "expanded" : "collapsed"}`}>
-              {categories?.map((c) => (
-                <label className="filter-item" key={c._id}>
-                  <input
-                    type="checkbox"
-                    className="custom-checkbox"
-                    checked={checked.includes(c._id)}
-                    onChange={(e) => handleFilter(e.target.checked, c._id)}
-                  />
-                  {c.name}
-                </label>
+
+            <div className="filter-group">
+              <button
+                type="button"
+                className="filter-head"
+                aria-expanded={categoryOpen}
+                aria-controls="filter-category"
+                onClick={() => setCategoryOpen((v) => !v)}
+              >
+                <span>Category</span>
+                {categoryOpen ? <DownOutlined /> : <RightOutlined />}
+              </button>
+              <div
+                id="filter-category"
+                className={`filter-body ${categoryOpen ? "open" : ""}`}
+              >
+                <div className="filter-body-inner">
+                  {categories?.map((c) => (
+                    <label className="filter-item" key={c._id}>
+                      <input
+                        type="checkbox"
+                        checked={checked.includes(c._id)}
+                        onChange={(e) => handleFilter(e.target.checked, c._id)}
+                      />
+                      <span>{c.name}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="filter-group">
+              <button
+                type="button"
+                className="filter-head"
+                aria-expanded={priceOpen}
+                aria-controls="filter-price"
+                onClick={() => setPriceOpen((v) => !v)}
+              >
+                <span>Price</span>
+                {priceOpen ? <DownOutlined /> : <RightOutlined />}
+              </button>
+              <div
+                id="filter-price"
+                className={`filter-body ${priceOpen ? "open" : ""}`}
+              >
+                <div className="filter-body-inner">
+                  {Prices?.map((p) => (
+                    <label className="filter-item" key={p._id}>
+                      <input
+                        type="radio"
+                        name="price"
+                        checked={radio === p.array}
+                        value={p.array}
+                        onChange={() => setRadio(p.array)}
+                      />
+                      <span>{p.name}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              className="rail-reset"
+              onClick={() => {
+                setChecked([]);
+                setRadio([]);
+                getAllProducts();
+              }}
+            >
+              Reset filters
+            </button>
+          </div>
+        </aside>
+
+        <div className="shop-main">
+          <header className="shop-head">
+            <div>
+              <h2 id="shop-heading" className="shop-title">
+                The catalog
+              </h2>
+              <p className="shop-sub">
+                {total > 0
+                  ? `${products.length} of ${total} products`
+                  : "Curated for you"}
+              </p>
+            </div>
+
+            <div
+              className="sort-group"
+              role="group"
+              aria-label="Sort products"
+            >
+              {sortOptions.map((opt) => (
+                <button
+                  key={opt.value}
+                  type="button"
+                  className={`sort-chip${sortBy === opt.value ? " active" : ""}`}
+                  aria-pressed={sortBy === opt.value}
+                  onClick={() => handleSort(opt.value)}
+                >
+                  {opt.label}
+                </button>
               ))}
             </div>
-          </div>
-          <div className="filter-section">
-            <div className="filter-header" onClick={() => setPriceOpen(!priceOpen)}>
-              Filter By Price
-              {priceOpen ? <DownOutlined /> : <RightOutlined />}
-            </div>
-            <div className={`filter-list ${priceOpen ? "expanded" : "collapsed"}`}>
-              <Radio.Group value={radio} onChange={(e) => setRadio(e.target.value)}>
-                {Prices?.map((p) => (
-                  <label className="filter-item" key={p._id}>
-                    <input
-                      type="radio"
-                      className="custom-radio"
-                      checked={radio === p.array}
-                      value={p.array}
-                      onChange={() => setRadio(p.array)}
-                      name="price"
-                    />
-                    {p.name}
-                  </label>
-                ))}
-              </Radio.Group>
-            </div>
-          </div>
-          <button
-            className="reset-btn"
-            onClick={() => {
-              setChecked([]);
-              setRadio([]);
-              getAllProducts();
-            }}
-          >
-            RESET FILTERS
-          </button>
-        </div>
-        <div className="col-md-9 offset-1">
-          {/* Sort Bar */}
-          <nav className="sort-bar" aria-label="Sort products">
-            <span>Sort By</span>
-            {sortOptions.map((opt) => (
+          </header>
+
+          {products?.length === 0 && !loading ? (
+            <div className="shop-empty">
+              <p>No products match these filters.</p>
               <button
-                key={opt.value}
-                className={`sort-btn${sortBy === opt.value ? " active" : ""}`}
                 type="button"
-                aria-current={sortBy === opt.value ? "true" : undefined}
-                onClick={() => handleSort(opt.value)}
+                className="btn-ghost"
+                onClick={() => {
+                  setChecked([]);
+                  setRadio([]);
+                  getAllProducts();
+                }}
               >
-                {opt.label}
+                Clear filters
               </button>
-            ))}
-          </nav>
-          <h1 className="text-center">All Products</h1>
-          <div className="product-grid">
-            {products?.map((p) => (
-              <div className="modern-product-card" key={p._id}>
-                <div className="product-image-container">
-                  <img
-                    src={`https://e-commerce-host2.onrender.com/api/v1/product/product-photo/${p._id}`}
-                    className="product-image"
-                    alt={p.name}
-                  />
-                </div>
-                <div className="product-card-body">
-                  <div className="product-header">
-                    <h5 className="product-title">{p.name}</h5>
-                    <p className="product-price">${p.price}</p>
-                  </div>
-                  <p className="product-description">
-                    {p.description.substring(0, 120)}...
-                  </p>
-                  <div className="product-actions">
-                    <button
-                      className="product-btn product-btn-primary"
-                      onClick={() => navigate(`/product/${p.slug}`)}
-                    >
-                      More Details
-                    </button>
-                    <button
-                      className="product-btn product-btn-secondary"
-                      onClick={() => {
-                        // Check if item already exists in cart
-                        const existingItemIndex = cart.findIndex(item => item._id === p._id);
-                        
-                        if (existingItemIndex !== -1) {
-                          // Item exists, increase quantity
-                          const updatedCart = [...cart];
-                          updatedCart[existingItemIndex].quantity = (updatedCart[existingItemIndex].quantity || 1) + 1;
-                          setCart(updatedCart);
-                          localStorage.setItem("cart", JSON.stringify(updatedCart));
-                          toast.success("Quantity increased in cart");
-                        } else {
-                          // New item, add with quantity 1
-                          const newItem = { ...p, quantity: 1 };
-                          setCart([...cart, newItem]);
-                          localStorage.setItem("cart", JSON.stringify([...cart, newItem]));
-                          toast.success("Item Added to cart");
-                        }
-                      }}
-                    >
-                      ADD TO CART
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="m-2 p-3">
-            {products && products.length < total && (
+            </div>
+          ) : (
+            <div className="pc-grid">
+              {products?.map((p, i) => (
+                <ProductCard
+                  key={p._id}
+                  product={p}
+                  index={i}
+                  onAddToCart={handleAddToCart}
+                />
+              ))}
+            </div>
+          )}
+
+          {products && products.length < total && (
+            <div className="shop-more">
               <button
-                className="btn btn-warning"
+                type="button"
+                className="btn-ghost"
+                aria-busy={loading}
                 onClick={(e) => {
                   e.preventDefault();
                   setPage(page + 1);
                 }}
               >
-                {loading ? "Loading ..." : "Loadmore"}
+                {loading ? "Loading…" : "Load more"}
               </button>
-            )}
-          </div>
+            </div>
+          )}
         </div>
-      </div>
+      </section>
     </Layout>
   );
 };
 
 export default HomePage;
-// style={{ backgroundColor: '#c2c2d6', border: '5px solid black', borderRadius: '10px' }}

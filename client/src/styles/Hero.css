@@ -1,0 +1,180 @@
+/* ============================================================
+   Hero — cinematic split (copy + product carousel)
+   ============================================================ */
+.hero {
+  position: relative;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: clamp(3rem, 7vw, 6rem) clamp(1.1rem, 4vw, 2.2rem)
+    clamp(1.5rem, 4vw, 2.5rem);
+}
+.hero-inner {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  align-items: center;
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+}
+.hero-copy {
+  max-width: 620px;
+}
+.hero-title {
+  font-family: "Archivo", sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.6rem, 6vw, 5rem);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  margin: 0;
+  color: var(--txt-hi);
+  text-wrap: balance;
+}
+.hero-sub {
+  color: var(--txt);
+  font-size: clamp(1rem, 1.4vw, 1.12rem);
+  line-height: 1.7;
+  max-width: 52ch;
+  margin: 1.4rem 0 2rem;
+}
+.hero-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+}
+
+/* ---------- Carousel ---------- */
+.hero-carousel {
+  position: relative;
+  height: clamp(320px, 42vw, 480px);
+  width: 100%;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--glass-brd);
+  background: var(--bg-800);
+  box-shadow: var(--shadow-card);
+}
+.hero-carousel-skeleton {
+  position: absolute;
+  inset: 0;
+  background: var(--grad-accent-soft);
+  filter: blur(30px);
+  animation: floaty 4s ease-in-out infinite;
+}
+.hero-slide {
+  position: absolute;
+  inset: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity var(--dur-slow) var(--ease-out),
+    visibility 0s linear var(--dur-slow);
+}
+.hero-slide.active {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity var(--dur-slow) var(--ease-out);
+}
+.hero-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 6s var(--ease-out);
+}
+.hero-slide.active img {
+  transform: scale(1.06);
+}
+.hero-slide-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(7, 11, 8, 0.88));
+  pointer-events: none;
+}
+.hero-slide-cap {
+  position: absolute;
+  left: 22px;
+  right: 22px;
+  bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  text-align: left;
+}
+.hero-slide-name {
+  font-family: "Archivo", sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.1rem, 2vw, 1.5rem);
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: #f4f5ef;
+  line-height: 1.1;
+}
+.hero-slide-price {
+  font-family: "Archivo", sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--teal);
+}
+
+.hero-car-nav {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  gap: 8px;
+  z-index: 2;
+}
+.hero-car-btn {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-btn);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(7, 11, 8, 0.6);
+  backdrop-filter: blur(10px);
+  color: var(--txt-hi);
+  cursor: pointer;
+  transition: transform var(--dur) var(--ease-out),
+    border-color var(--dur) var(--ease-out), color var(--dur) var(--ease-out);
+}
+.hero-car-btn:hover {
+  color: var(--teal);
+  border-color: var(--glass-brd-hi);
+}
+.hero-car-btn:active {
+  transform: scale(0.9);
+}
+.hero-dots {
+  position: absolute;
+  left: 22px;
+  top: 22px;
+  display: flex;
+  gap: 8px;
+  z-index: 2;
+}
+.hero-dot {
+  width: 22px;
+  height: 4px;
+  border-radius: var(--radius-btn);
+  border: none;
+  background: rgba(255, 255, 255, 0.28);
+  cursor: pointer;
+  transition: background-color var(--dur) var(--ease-out),
+    width var(--dur) var(--ease-out);
+}
+.hero-dot.active {
+  background: var(--teal);
+  width: 34px;
+}
+
+@media (max-width: 900px) {
+  .hero-inner {
+    grid-template-columns: 1fr;
+  }
+  .hero-carousel {
+    height: 300px;
+    order: -1;
+  }
+}

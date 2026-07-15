@@ -1,0 +1,642 @@
+/* ============================================================
+   Dark-theme overrides for dashboards, menus, forms and misc
+   pages. Loaded after pages.css.
+   ============================================================ */
+
+/* ---------- Admin / User side menus ---------- */
+.modern-admin-menu,
+.modern-user-menu {
+  background: var(--glass-bg) !important;
+  border: 1px solid var(--glass-brd) !important;
+  border-radius: var(--radius) !important;
+  box-shadow: var(--shadow-card) !important;
+  color: var(--txt) !important;
+  overflow: hidden;
+}
+.menu-header {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1.2rem;
+  background: var(--grad-accent-soft) !important;
+  border-bottom: 1px solid var(--glass-brd);
+}
+.menu-avatar {
+  width: 46px;
+  height: 46px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: var(--grad-accent);
+  color: #04121a;
+  font-size: 1.2rem;
+}
+.menu-title h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  color: var(--txt-hi);
+}
+.menu-title p {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--txt-mut);
+}
+.menu-navigation {
+  display: flex;
+  flex-direction: column;
+  padding: 0.7rem;
+  gap: 0.35rem;
+}
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 0.75rem 0.85rem;
+  border-radius: 12px;
+  color: var(--txt) !important;
+  text-decoration: none;
+  transition: all 0.25s var(--ease);
+  position: relative;
+}
+.menu-item:hover {
+  background: var(--glass-bg-strong) !important;
+  color: var(--txt-hi) !important;
+}
+.menu-item.active {
+  background: var(--grad-accent-soft) !important;
+  color: #fff !important;
+  border: 1px solid var(--glass-brd-hi);
+}
+.menu-item-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: var(--glass-bg-strong);
+  color: var(--teal);
+  flex-shrink: 0;
+}
+.menu-item-content {
+  display: flex;
+  flex-direction: column;
+}
+.menu-item-label {
+  font-weight: 600;
+  font-size: 0.92rem;
+}
+.menu-item-description {
+  font-size: 0.75rem;
+  color: var(--txt-dim);
+}
+.menu-item-indicator {
+  margin-left: auto;
+}
+.indicator-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: transparent;
+}
+.menu-item.active .indicator-dot {
+  background: var(--teal);
+  box-shadow: 0 0 10px var(--teal);
+}
+.menu-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.8rem;
+  border-top: 1px solid var(--glass-brd);
+}
+.menu-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: 10px;
+  border: none;
+  background: var(--glass-bg);
+  color: var(--txt) !important;
+  cursor: pointer;
+  transition: all 0.2s var(--ease);
+}
+.menu-action-btn:hover {
+  background: var(--glass-bg-strong);
+  color: var(--txt-hi) !important;
+}
+.menu-action-btn.logout:hover {
+  color: #ef4444 !important;
+}
+
+/* ---------- User dashboard ---------- */
+.modern-dashboard-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem 1.2rem 3rem;
+}
+.dashboard-content {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 1.6rem;
+  align-items: start;
+}
+.welcome-section,
+.user-info-card,
+.stat-card,
+.quick-actions {
+  background: var(--glass-bg) !important;
+  border: 1px solid var(--glass-brd) !important;
+  border-radius: var(--radius) !important;
+  box-shadow: var(--shadow-card);
+  color: var(--txt);
+}
+.welcome-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.6rem;
+  margin-bottom: 1.4rem;
+  background: var(--grad-accent-soft) !important;
+}
+.welcome-title {
+  font-weight: 800;
+  color: var(--txt-hi);
+}
+.welcome-title .user-name {
+  background: var(--grad-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.welcome-subtitle {
+  color: var(--txt-mut);
+  margin: 0;
+}
+.welcome-icon {
+  width: 66px;
+  height: 66px;
+  border-radius: 20px;
+  display: grid;
+  place-items: center;
+  font-size: 1.7rem;
+  background: var(--grad-accent);
+  color: #04121a;
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.1rem;
+  margin-bottom: 1.4rem;
+}
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.2rem;
+}
+.stat-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  font-size: 1.3rem;
+  background: var(--glass-bg-strong);
+  color: var(--teal);
+}
+.stat-icon.spent {
+  color: #fbbf24;
+}
+.stat-icon.category {
+  color: var(--pink);
+}
+.stat-number {
+  font-family: "Sora", sans-serif;
+  font-weight: 800;
+  font-size: 1.5rem;
+  margin: 0;
+  color: var(--txt-hi);
+}
+.stat-label {
+  color: var(--txt-mut);
+  margin: 0;
+  font-size: 0.85rem;
+}
+.user-info-card {
+  padding: 1.6rem;
+  margin-bottom: 1.4rem;
+}
+.card-header .card-title {
+  font-weight: 700;
+  color: var(--txt-hi);
+}
+.card-header .card-subtitle {
+  color: var(--txt-mut);
+}
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.info-item {
+  display: flex;
+  gap: 0.8rem;
+  align-items: center;
+  padding: 0.9rem;
+  border-radius: 12px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-brd);
+}
+.info-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: var(--glass-bg-strong);
+  color: var(--teal);
+}
+.info-label {
+  color: var(--txt-dim);
+  font-size: 0.78rem;
+  display: block;
+}
+.info-value {
+  color: var(--txt-hi);
+  margin: 0;
+  font-weight: 600;
+}
+.quick-actions {
+  padding: 1.6rem;
+}
+.quick-actions .section-title {
+  font-weight: 700;
+  color: var(--txt-hi);
+  margin-bottom: 1rem;
+}
+.actions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0.9rem;
+}
+.action-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.85rem;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.25s var(--ease);
+}
+.action-btn.primary {
+  background: var(--grad-accent);
+  color: #04121a;
+  box-shadow: var(--shadow-glow);
+}
+.action-btn.secondary {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-brd);
+  color: var(--txt-hi);
+}
+.action-btn:hover {
+  transform: translateY(-2px);
+}
+
+/* ---------- Admin dashboard ---------- */
+.admin-hero,
+.admin-card,
+.admin-tile {
+  background: var(--glass-bg) !important;
+  border: 1px solid var(--glass-brd) !important;
+  border-radius: var(--radius) !important;
+  box-shadow: var(--shadow-card);
+  color: var(--txt) !important;
+}
+.admin-hero {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  padding: 1.6rem;
+  margin-bottom: 1.4rem;
+  background: var(--grad-accent-soft) !important;
+}
+.admin-hero .avatar {
+  width: 62px;
+  height: 62px;
+  border-radius: 18px;
+  display: grid;
+  place-items: center;
+  font-family: "Sora", sans-serif;
+  font-weight: 800;
+  font-size: 1.3rem;
+  background: var(--grad-accent);
+  color: #04121a;
+}
+.role-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.8rem;
+  border-radius: 999px;
+  background: var(--glass-bg-strong);
+  border: 1px solid var(--glass-brd);
+  color: var(--teal);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.hero-title {
+  font-weight: 800;
+  color: var(--txt-hi);
+  margin: 0.5rem 0 0.2rem;
+}
+.hero-subtitle {
+  color: var(--txt-mut);
+  margin: 0;
+}
+.admin-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.2rem;
+}
+.admin-card {
+  padding: 1.3rem;
+}
+.admin-card .card-title {
+  font-weight: 700;
+  color: var(--txt-hi);
+  margin-bottom: 0.8rem;
+}
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.45rem 0;
+  border-bottom: 1px dashed var(--glass-brd);
+  color: var(--txt);
+}
+.info-row span:last-child {
+  color: var(--txt-hi);
+  font-weight: 600;
+}
+.admin-tile {
+  padding: 1.4rem;
+  text-align: center;
+  transition: transform 0.3s var(--ease);
+}
+.admin-tile:hover {
+  transform: translateY(-5px);
+  border-color: var(--glass-brd-hi) !important;
+}
+.tile-icon {
+  width: 54px;
+  height: 54px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 0.7rem;
+  font-size: 1.4rem;
+  background: var(--glass-bg-strong);
+  color: var(--teal);
+}
+.tile-title {
+  font-weight: 700;
+  color: var(--txt-hi);
+}
+.tile-subtitle {
+  color: var(--txt-mut);
+  font-size: 0.85rem;
+}
+
+/* ---------- About / Contact / Policy ---------- */
+.contactus {
+  max-width: 1150px;
+  margin: 2.5rem auto !important;
+  align-items: center;
+  gap: 1.5rem;
+}
+.contactus img {
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--glass-brd);
+}
+.contactus .col-md-4 {
+  color: var(--txt);
+}
+.contactus p {
+  color: var(--txt-mut);
+  line-height: 1.8;
+}
+.contactus h1.bg-dark {
+  background: var(--grad-accent) !important;
+  color: #04121a !important;
+  border-radius: var(--radius-sm);
+  font-family: "Sora", sans-serif;
+  font-weight: 800;
+}
+
+/* ---------- 404 ---------- */
+.pnf {
+  min-height: 65vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  text-align: center;
+}
+.pnf-title {
+  font-family: "Sora", sans-serif;
+  font-size: clamp(5rem, 16vw, 10rem);
+  font-weight: 800;
+  line-height: 1;
+  background: var(--grad-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+.pnf-heading {
+  color: var(--txt-hi);
+  font-weight: 600;
+}
+.pnf-btn {
+  margin-top: 1rem;
+  padding: 0.8rem 1.8rem;
+  border-radius: 999px;
+  background: var(--grad-accent);
+  color: #04121a !important;
+  font-weight: 600;
+  box-shadow: var(--shadow-glow);
+  transition: transform 0.25s var(--ease);
+}
+.pnf-btn:hover {
+  transform: translateY(-2px);
+  color: #04121a !important;
+}
+
+/* ---------- Spinner ---------- */
+.modern-spinner-message {
+  color: var(--txt);
+  margin-bottom: 1.2rem;
+}
+.redirect-count {
+  color: var(--teal);
+  font-weight: 800;
+}
+.modern-spinner-circle {
+  width: 52px;
+  height: 52px;
+  border: 4px solid rgba(255, 255, 255, 0.12);
+  border-top-color: var(--teal);
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+
+@media (max-width: 900px) {
+  .dashboard-content {
+    grid-template-columns: 1fr;
+  }
+  .contactus {
+    text-align: center;
+  }
+}
+
+/* ============================================================
+   RADIAN hardening — legacy index.css (loads first) still paints
+   these pages purple/white. Kill leaked backgrounds, sweeps and
+   light-theme colors. Keep selector specificity >= legacy.
+   ============================================================ */
+
+/* Page containers: purple gradients / white panels -> ambient dark */
+.modern-dashboard-container,
+.modern-profile-container,
+.modern-admin-container,
+.modern-orders-container,
+.dashboard-content,
+.admin-content,
+.orders-content,
+.profile-content {
+  background: transparent !important;
+}
+
+/* Menu: kill legacy purple sweep + white-on-light hover */
+.modern-admin-menu .menu-item::before,
+.modern-user-menu .menu-item::before {
+  content: none !important;
+}
+.modern-admin-menu .menu-item:hover,
+.modern-user-menu .menu-item:hover {
+  background: var(--glass-bg-strong) !important;
+  color: var(--txt-hi) !important;
+  transform: none !important;
+}
+.modern-admin-menu .menu-item.active,
+.modern-user-menu .menu-item.active {
+  background: rgba(253, 235, 7, 0.12) !important;
+  border: 1px solid rgba(253, 235, 7, 0.4) !important;
+  color: var(--txt-hi) !important;
+  transform: none !important;
+}
+.modern-admin-menu .menu-item:hover .menu-item-icon,
+.modern-admin-menu .menu-item.active .menu-item-icon,
+.modern-user-menu .menu-item:hover .menu-item-icon,
+.modern-user-menu .menu-item.active .menu-item-icon {
+  background: var(--teal) !important;
+  color: var(--ink) !important;
+}
+.modern-admin-menu .menu-item-label,
+.modern-user-menu .menu-item-label {
+  color: var(--txt-hi) !important;
+}
+.modern-admin-menu .menu-item-description,
+.modern-user-menu .menu-item-description {
+  color: var(--txt-mut) !important;
+}
+.modern-admin-menu .menu-header,
+.modern-user-menu .menu-header {
+  background: rgba(253, 235, 7, 0.08) !important;
+}
+.modern-admin-menu .menu-title h3,
+.modern-user-menu .menu-title h3 {
+  color: var(--txt-hi) !important;
+}
+.modern-admin-menu .menu-title p,
+.modern-user-menu .menu-title p {
+  color: var(--txt-mut) !important;
+}
+.modern-admin-menu .menu-action-btn,
+.modern-user-menu .menu-action-btn {
+  background: var(--glass-bg) !important;
+  border: 1px solid var(--glass-brd) !important;
+  color: var(--txt) !important;
+}
+.modern-admin-menu .menu-action-btn:hover,
+.modern-user-menu .menu-action-btn:hover {
+  background: var(--glass-bg-strong) !important;
+  color: var(--txt-hi) !important;
+}
+.modern-admin-menu .menu-action-btn.logout,
+.modern-user-menu .menu-action-btn.logout {
+  background: rgba(255, 92, 53, 0.12) !important;
+  border-color: rgba(255, 92, 53, 0.4) !important;
+  color: #ff8a6b !important;
+}
+
+/* Profile page: white card -> dark glass, visible text */
+.profile-form-container {
+  background: var(--glass-bg) !important;
+  border: 1px solid var(--glass-brd) !important;
+  border-radius: var(--radius) !important;
+  box-shadow: var(--shadow-card) !important;
+  backdrop-filter: blur(16px);
+}
+.profile-header h1,
+.form-title {
+  color: var(--txt-hi) !important;
+}
+.profile-header p,
+.form-subtitle,
+.profile-email,
+.form-help {
+  color: var(--txt-mut) !important;
+}
+.form-label {
+  color: var(--txt) !important;
+}
+.modern-form-input,
+.modern-form-textarea {
+  background: var(--glass-bg) !important;
+  border: 1px solid var(--glass-brd) !important;
+  border-radius: var(--radius-sm) !important;
+  color: var(--txt-hi) !important;
+}
+.modern-form-input::placeholder,
+.modern-form-textarea::placeholder {
+  color: var(--txt-mut) !important;
+}
+.modern-form-input:focus,
+.modern-form-textarea:focus {
+  border-color: var(--teal) !important;
+  box-shadow: 0 0 0 3px rgba(253, 235, 7, 0.18) !important;
+  outline: none;
+}
+.modern-form-input.disabled {
+  opacity: 0.6;
+}
+
+/* Dashboard overview card pins (legacy #333 leak) */
+.card-title,
+.section-title,
+.stat-number,
+.info-value {
+  color: var(--txt-hi) !important;
+}
+.card-subtitle,
+.stat-label,
+.info-label {
+  color: var(--txt-mut) !important;
+}

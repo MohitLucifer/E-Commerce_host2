@@ -254,3 +254,42 @@ export const orderStatusController = async (req, res) => {
     });
   }
 };
+
+//all users (admin)
+export const getAllUsersController = async (req, res) => {
+  try {
+    const users = await userModel
+      .find({})
+      .select("-password -answer")
+      .sort({ createdAt: -1 });
+    res.status(200).send({
+      success: true,
+      users,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error While Getting Users",
+      error,
+    });
+  }
+};
+
+//delete user (admin)
+export const deleteUserController = async (req, res) => {
+  try {
+    await userModel.findByIdAndDelete(req.params.id);
+    res.status(200).send({
+      success: true,
+      message: "User Deleted Successfully",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send({
+      success: false,
+      message: "Error While Deleting User",
+      error,
+    });
+  }
+};

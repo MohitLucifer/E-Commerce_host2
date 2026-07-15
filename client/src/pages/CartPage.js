@@ -1,67 +1,48 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Layout from "./../components/Layout/Layout";
 import { useCart } from "../context/cart";
 import { useAuth } from "../context/auth";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
-import { 
-  FaShoppingCart, 
-  FaTrash, 
-  FaPlus, 
-  FaMinus, 
-  FaMapMarkerAlt, 
-  FaCreditCard, 
+import {
+  FaShoppingCart,
+  FaTrash,
+  FaPlus,
+  FaMinus,
+  FaMapMarkerAlt,
+  FaCreditCard,
   FaArrowLeft,
-  FaHeart,
-  FaShare
-} from 'react-icons/fa';
+} from "react-icons/fa";
+
+const API = "https://e-commerce-host2.onrender.com";
+const TAX_RATE = 0.08;
+const REMOVE_MS = 280; // keep under the 300ms UI ceiling
+
+const usd = (value) =>
+  (Number(value) || 0).toLocaleString("en-US", {
+    style: "currency",
+    currency: "USD",
+  });
+
+const truncate = (text = "", max = 80) =>
+  text.length > max ? `${text.slice(0, max).trimEnd()}…` : text;
 
 const CartPage = () => {
-  const [auth, setAuth] = useAuth();
+  const [auth] = useAuth();
   const [cart, setCart] = useCart();
   const [loading, setLoading] = useState(false);
   const [removingItem, setRemovingItem] = useState(null);
   const navigate = useNavigate();
 
-  // Calculate total price
-  const totalPrice = () => {
-    try {
-      let total = 0;
-      cart?.forEach((item) => {
-        const quantity = item.quantity || 1;
-        total = total + (item.price * quantity);
-      });
-      return total.toLocaleString("en-US", {
-        style: "currency",
-        currency: "USD",
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  const subtotal = () =>
+    cart?.reduce((sum, item) => sum + item.price * (item.quantity || 1), 0) || 0;
 
-  // Calculate subtotal
-  const subtotal = () => {
-    try {
-      let total = 0;
-      cart?.forEach((item) => {
-        const quantity = item.quantity || 1;
-        total = total + (item.price * quantity);
-      });
-      return total;
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  // Update item quantity
   const updateQuantity = (pid, newQuantity) => {
     if (newQuantity < 1) return;
-    
     try {
-      let myCart = [...cart];
-      let index = myCart.findIndex((item) => item._id === pid);
+      const myCart = [...cart];
+      const index = myCart.findIndex((item) => item._id === pid);
       if (index !== -1) {
         myCart[index].quantity = newQuantity;
         setCart(myCart);
@@ -73,33 +54,28 @@ const CartPage = () => {
     }
   };
 
-  // Remove cart item with animation
-  const removeCartItem = async (pid) => {
+  const removeCartItem = (pid) => {
     try {
       setRemovingItem(pid);
-      // Add a small delay for animation
       setTimeout(() => {
-        let myCart = [...cart];
-        let index = myCart.findIndex((item) => item._id === pid);
+        const myCart = [...cart];
+        const index = myCart.findIndex((item) => item._id === pid);
         myCart.splice(index, 1);
         setCart(myCart);
         localStorage.setItem("cart", JSON.stringify(myCart));
         setRemovingItem(null);
         toast.success("Item removed from cart!");
-      }, 300);
+      }, REMOVE_MS);
     } catch (error) {
       console.log(error);
       setRemovingItem(null);
     }
   };
 
-  // Handle payments
   const handlePayment = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.post("https://e-commerce-host2.onrender.com/api/v1/product/braintree/payment", {
-        cart
-      });
+      await axios.post(`${API}/api/v1/product/braintree/payment`, { cart });
       setLoading(false);
       localStorage.removeItem("cart");
       setCart([]);
@@ -112,24 +88,25 @@ const CartPage = () => {
     }
   };
 
-  // Continue shopping
-  const continueShopping = () => {
-    navigate("/");
-  };
+  const continueShopping = () => navigate("/");
 
   if (cart?.length === 0) {
     return (
-      <Layout>
+      <Layout title={"Your Cart"}>
         <div className="empty-cart-container">
           <div className="empty-cart-content">
-            <div className="empty-cart-icon">
+            <div className="empty-cart-icon" aria-hidden="true">
               <FaShoppingCart />
             </div>
-            <h1>Your Cart is Empty</h1>
-            <p>Looks like you haven't added any items to your cart yet.</p>
-            <button className="continue-shopping-btn" onClick={continueShopping}>
-              <FaArrowLeft />
-              Continue Shopping
+            <h1>Your cart is empty</h1>
+            <p>Looks like you haven't added any items yet.</p>
+            <button
+              type="button"
+              className="continue-shopping-btn"
+              onClick={continueShopping}
+            >
+              <FaArrowLeft aria-hidden="true" />
+              Continue shopping
             </button>
           </div>
         </div>
@@ -137,99 +114,119 @@ const CartPage = () => {
     );
   }
 
+  const itemWord = cart?.length === 1 ? "item" : "items";
+
   return (
-    <Layout>
-      <div className="modern-cart-container">
-        {/* Cart Header */}
-        <div className="cart-header">
+    <Layout title={"Your Cart"}>
+      <main className="modern-cart-container">
+        <header className="cart-header">
           <div className="cart-header-content">
-            <h1>Hello {auth?.token && auth?.user?.name}</h1>
-            <div className="cart-summary-badge">
-              <FaShoppingCart />
-              <span>{cart?.length} {cart?.length === 1 ? 'item' : 'items'} in your cart</span>
-            </div>
+            <h1>{auth?.token ? `Hello, ${auth?.user?.name}` : "Your cart"}</h1>
+            <p className="cart-summary-badge">
+              <FaShoppingCart aria-hidden="true" />
+              <span>
+                {cart?.length} {itemWord} in your cart
+              </span>
+            </p>
           </div>
-        </div>
+        </header>
 
         <div className="cart-content">
-          {/* Cart Items */}
-          <div className="cart-items-section">
+          <section className="cart-items-section" aria-label="Cart items">
             <div className="section-header">
-              <h2>Shopping Cart</h2>
-              <span className="item-count">{cart?.length} {cart?.length === 1 ? 'item' : 'items'}</span>
+              <h2>Shopping cart</h2>
+              <span className="item-count">
+                {cart?.length} {itemWord}
+              </span>
             </div>
-            
-            <div className="cart-items">
+
+            <ul className="cart-items">
               {cart?.map((item) => (
-                <div 
-                  key={item._id} 
-                  className={`cart-item ${removingItem === item._id ? 'removing' : ''}`}
+                <li
+                  key={item._id}
+                  className={`cart-item ${
+                    removingItem === item._id ? "removing" : ""
+                  }`}
                 >
                   <div className="item-image">
                     <img
-                      src={`https://e-commerce-host2.onrender.com/api/v1/product/product-photo/${item._id}`}
-                      alt={item.name}
+                      src={`${API}/api/v1/product/product-photo/${item._id}`}
+                      alt={item.name || "Product image"}
+                      loading="lazy"
                     />
                   </div>
-                  
+
                   <div className="item-details">
                     <div className="item-header">
                       <h3 className="item-name">{item.name}</h3>
-                      <button 
+                      <button
+                        type="button"
                         className="remove-btn"
                         onClick={() => removeCartItem(item._id)}
+                        aria-label={`Remove ${item.name} from cart`}
                       >
-                        <FaTrash />
+                        <FaTrash aria-hidden="true" />
                       </button>
                     </div>
-                    
+
                     <p className="item-description">
-                      {item.description?.substring(0, 80)}...
+                      {truncate(item.description)}
                     </p>
-                    
+
                     <div className="item-price">
-                      <span className="price">${item.price}</span>
+                      <span className="price">{usd(item.price)}</span>
                       {item.originalPrice && (
-                        <span className="original-price">${item.originalPrice}</span>
+                        <span className="original-price">
+                          {usd(item.originalPrice)}
+                        </span>
                       )}
                     </div>
                   </div>
-                  
+
                   <div className="item-actions">
                     <div className="quantity-controls">
                       <button
+                        type="button"
                         className="quantity-btn"
-                        onClick={() => updateQuantity(item._id, (item.quantity || 1) - 1)}
+                        onClick={() =>
+                          updateQuantity(item._id, (item.quantity || 1) - 1)
+                        }
+                        aria-label={`Decrease quantity of ${item.name}`}
                       >
-                        <FaMinus />
+                        <FaMinus aria-hidden="true" />
                       </button>
-                      <span className="quantity">{item.quantity || 1}</span>
+                      <span className="quantity" aria-live="polite">
+                        {item.quantity || 1}
+                      </span>
                       <button
+                        type="button"
                         className="quantity-btn"
-                        onClick={() => updateQuantity(item._id, (item.quantity || 1) + 1)}
+                        onClick={() =>
+                          updateQuantity(item._id, (item.quantity || 1) + 1)
+                        }
+                        aria-label={`Increase quantity of ${item.name}`}
                       >
-                        <FaPlus />
+                        <FaPlus aria-hidden="true" />
                       </button>
                     </div>
-                    
+
                     <div className="item-total">
-                      <span>Total: ${((item.quantity || 1) * item.price).toFixed(2)}</span>
+                      <span>{usd((item.quantity || 1) * item.price)}</span>
                     </div>
                   </div>
-                </div>
+                </li>
               ))}
-            </div>
-          </div>
+            </ul>
+          </section>
 
-          {/* Cart Summary */}
-          <div className="cart-summary-section">
+          <aside className="cart-summary-section" aria-label="Order summary">
             <div className="summary-card">
-              <h2>Order Summary</h2>
-              
+              <h2>Order summary</h2>
+
               <div className="summary-items">
                 <div className="summary-item">
                   <span>Subtotal</span>
-                  <span>${subtotal()?.toFixed(2)}</span>
+                  <span>{usd(subtotal())}</span>
                 </div>
                 <div className="summary-item">
                   <span>Shipping</span>
@@ -237,30 +234,30 @@ const CartPage = () => {
                 </div>
                 <div className="summary-item">
                   <span>Tax</span>
-                  <span>${(subtotal() * 0.08).toFixed(2)}</span>
+                  <span>{usd(subtotal() * TAX_RATE)}</span>
                 </div>
                 <div className="summary-divider"></div>
                 <div className="summary-item total">
                   <span>Total</span>
-                  <span>{totalPrice()}</span>
+                  <span>{usd(subtotal() * (1 + TAX_RATE))}</span>
                 </div>
               </div>
 
-              {/* Address Section */}
               <div className="address-section">
                 <div className="address-header">
-                  <FaMapMarkerAlt />
-                  <h3>Delivery Address</h3>
+                  <FaMapMarkerAlt aria-hidden="true" />
+                  <h3>Delivery address</h3>
                 </div>
-                
+
                 {auth?.user?.address ? (
                   <div className="current-address">
                     <p>{auth?.user?.address}</p>
                     <button
+                      type="button"
                       className="update-address-btn"
                       onClick={() => navigate("/dashboard/user/profile")}
                     >
-                      Update Address
+                      Update address
                     </button>
                   </div>
                 ) : (
@@ -268,55 +265,63 @@ const CartPage = () => {
                     <p>No address set</p>
                     {auth?.token ? (
                       <button
+                        type="button"
                         className="add-address-btn"
                         onClick={() => navigate("/dashboard/user/profile")}
                       >
-                        Add Address
+                        Add address
                       </button>
                     ) : (
                       <button
+                        type="button"
                         className="login-btn"
                         onClick={() => navigate("/login", { state: "/cart" })}
                       >
-                        Login to Continue
+                        Login to continue
                       </button>
                     )}
                   </div>
                 )}
               </div>
 
-              {/* Payment Section */}
               <div className="payment-section">
                 <div className="payment-header">
-                  <FaCreditCard />
+                  <FaCreditCard aria-hidden="true" />
                   <h3>Payment</h3>
                 </div>
-                
+
                 <button
+                  type="button"
                   className="payment-btn"
                   onClick={handlePayment}
                   disabled={loading || !auth?.user?.address}
+                  aria-busy={loading}
                 >
                   {loading ? (
-                    <div className="loading-spinner"></div>
+                    <span className="spinner-sm" aria-hidden="true"></span>
                   ) : (
                     <>
-                      <FaCreditCard />
-                      {auth?.user?.address ? "Proceed to Payment" : "Add Address First"}
+                      <FaCreditCard aria-hidden="true" />
+                      {auth?.user?.address
+                        ? "Proceed to payment"
+                        : "Add address first"}
                     </>
                   )}
                 </button>
               </div>
 
-              {/* Continue Shopping */}
-              <button className="continue-shopping-btn-secondary" onClick={continueShopping}>
-                <FaArrowLeft />
-                Continue Shopping
+              <button
+                type="button"
+                className="continue-shopping-btn-secondary"
+                onClick={continueShopping}
+              >
+                <FaArrowLeft aria-hidden="true" />
+                Continue shopping
               </button>
             </div>
-          </div>
+          </aside>
         </div>
-      </div>
+      </main>
     </Layout>
   );
 };

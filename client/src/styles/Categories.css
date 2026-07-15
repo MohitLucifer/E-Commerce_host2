@@ -1,0 +1,144 @@
+/* ============================================================
+   Categories — editorial collection grid (brand-accent tiles)
+   ============================================================ */
+.cats {
+  padding-top: clamp(2.5rem, 6vw, 4.5rem);
+}
+.cats-head {
+  margin-bottom: clamp(1.8rem, 4vw, 3rem);
+}
+.cats-title {
+  font-family: "Archivo", sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.4rem, 6vw, 4.2rem);
+  line-height: 1;
+  letter-spacing: -0.03em;
+  margin: 0;
+  color: var(--txt-hi);
+}
+.cats-sub {
+  margin: 0.7rem 0 0;
+  color: var(--txt-mut);
+  font-size: 1.02rem;
+}
+
+.cat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  grid-auto-flow: dense;
+  gap: 1.1rem;
+}
+
+.cat-tile {
+  position: relative;
+  min-height: 200px;
+  border-radius: var(--radius);
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-brd);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  overflow: hidden;
+  transition: transform var(--dur-slow) var(--ease-out),
+    border-color var(--dur-slow) var(--ease-out),
+    box-shadow var(--dur-slow) var(--ease-out);
+}
+/* One feature tile carries the grid — layout variance, no dead cells */
+.cat-tile--feature {
+  grid-column: span 2;
+  grid-row: span 2;
+  min-height: 300px;
+  background: var(--grad-accent-soft);
+}
+.cat-tile::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    120% 120% at 100% 100%,
+    rgba(45, 212, 191, 0.16),
+    transparent 60%
+  );
+  opacity: 0;
+  transition: opacity var(--dur-slow) var(--ease-out);
+  pointer-events: none;
+}
+.cat-tile:hover {
+  transform: translateY(-4px);
+  border-color: var(--glass-brd-hi);
+  box-shadow: var(--shadow-card), var(--shadow-glow);
+}
+.cat-tile:hover::after {
+  opacity: 1;
+}
+.cat-tile:active {
+  transform: scale(0.99);
+}
+
+.cat-link {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  padding: 1.5rem 1.4rem;
+  color: var(--txt-hi);
+}
+.cat-name {
+  font-family: "Archivo", sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.4rem, 2.4vw, 2rem);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  color: var(--txt-hi);
+}
+.cat-tile--feature .cat-name {
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+.cat-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1.2rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--teal);
+}
+.cat-arrow {
+  transition: transform var(--dur) var(--ease-out);
+}
+.cat-tile:hover .cat-arrow {
+  transform: translateX(4px);
+}
+
+/* Closing band */
+.cats-foot {
+  margin-top: clamp(2.5rem, 5vw, 4rem);
+  padding: clamp(1.8rem, 4vw, 2.6rem);
+  border-radius: var(--radius-lg);
+  background: var(--grad-accent-soft);
+  border: 1px solid var(--glass-brd);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+.cats-foot-title {
+  margin: 0;
+  font-weight: 800;
+  font-size: clamp(1.3rem, 3vw, 1.8rem);
+  color: var(--txt-hi);
+}
+.cats-foot-sub {
+  margin: 0.4rem 0 0;
+  color: var(--txt);
+}
+
+@media (max-width: 620px) {
+  .cat-tile--feature {
+    grid-column: span 1;
+    grid-row: span 1;
+    min-height: 200px;
+  }
+}

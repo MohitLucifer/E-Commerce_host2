@@ -267,3 +267,10 @@ sessions/
 Dockerfile
 docker-compose.yml
 docker-compose.yaml
+
+# AI tooling (local only)
+.agents/
+.claude/
+.codex/
+.seedtmp/
+skills-lock.json

@@ -1009,7 +1009,7 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 40px 20px;
-  background: white;
+  background: transparent;
 }
 
 /* Loading State */
@@ -1779,14 +1779,14 @@
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-  color: white !important;
+  background: var(--teal, #fdeb07) !important;
+  color: var(--ink, #06121f) !important;
 }
 
 .btn-primary:hover {
-  background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%) !important;
-  transform: translateY(-2px) !important;
-  color: white !important;
+  background: #fff44f !important;
+  transform: translateY(-1px) !important;
+  color: var(--ink, #06121f) !important;
 }
 
 .btn-secondary {
@@ -1849,7 +1849,7 @@
   max-width: 1200px;
   margin: 0 auto;
   padding: 40px 20px;
-  background: white;
+  background: transparent;
   min-height: 100vh;
 }
 
@@ -1961,9 +1961,8 @@
 
 /* Cart Items Section */
 .cart-items-section {
-  background: white;
+  background: transparent;
   border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   overflow: hidden;
 }
 
@@ -4977,8 +4976,8 @@
 }
 
 .modern-select.ant-select-focused .ant-select-selector {
-  border-color: #667eea !important;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1) !important;
+  border-color: #fdeb07 !important;
+  box-shadow: 0 0 0 3px rgba(253, 235, 7, 0.15) !important;
 }
 
 /* Upload Area */

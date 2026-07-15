@@ -1,55 +1,117 @@
-/* ===================================
-========= register page  */
+/* ===========================================
+   Auth pages — Radian (acid yellow on near-black)
+   =========================================== */
 .form-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 70vh;
+  min-height: 80vh;
   flex-direction: column;
-  background-size: cover;
-  background-position: center;
-  /* background-color: #ffdee9; */
- background-image: url(../../public/images/login3.jpg);
+  padding: 3rem 1.2rem;
+  position: relative;
 }
 
 .form-container form {
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  padding: 20px;
-  background-color: #fff;
+  width: 100%;
+  max-width: 420px;
+  padding: 2.4rem 2rem;
+  border-radius: var(--radius-lg);
+  background: rgba(18, 23, 20, 0.72);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-brd);
+  box-shadow: var(--shadow-card);
+  animation: authIn 280ms var(--ease-out);
+}
+
+@keyframes authIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 .form-container form .title {
   text-align: center;
-  margin-bottom: 15px;
-  font-weight: bold;
-  font-family: "Playfair Display", serif;
+  margin-bottom: 1.6rem;
+  font-family: "Archivo", sans-serif;
+  font-weight: 800;
+  font-size: 1.5rem;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--txt-hi);
 }
 
-.form-container form input {
-  border: none;
-  border-bottom: 1px solid #000;
-  border-radius: 0;
+.form-container form input,
+.form-container form .form-control {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-brd);
+  border-radius: var(--radius-sm);
+  color: var(--txt-hi);
+  padding: 0.75rem 0.95rem;
+  transition: border-color var(--dur) var(--ease-out),
+    box-shadow var(--dur) var(--ease-out),
+    background-color var(--dur) var(--ease-out);
+}
+
+.form-container form input::placeholder {
+  color: var(--txt-mut);
+}
+
+.form-container form input:focus,
+.form-container form .form-control:focus {
+  background: var(--glass-bg-strong);
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(253, 235, 7, 0.18);
+  color: #fff;
+  outline: none;
 }
 
 .form-container form button {
-  border: 1px solid black;
-  border-radius: 0;
-  background-color: #000;
-  color: white;
-  width: 250px;
+  border: none;
+  border-radius: var(--radius-btn);
+  width: 100%;
+  padding: 0.85rem 1.4rem;
+  font-weight: 600;
+  font-family: "Space Grotesk", sans-serif;
+  background: var(--teal);
+  color: var(--ink);
+  box-shadow: var(--shadow-glow);
+  transition: transform var(--dur) var(--ease-out),
+    background-color var(--dur) var(--ease-out);
 }
 
 .form-container form button:hover {
-  border: 1px solid black;
-  background: #000000; /* fallback for old browsers */
-  background: -webkit-linear-gradient(
-    to right,
-    #434343,
-    #000000
-  ); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(
-    to right,
-    #434343,
-    #000000
-  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  transform: translateY(-1px);
+  background: #fff44f;
+  color: var(--ink);
+}
+
+.form-container form button:active {
+  transform: scale(0.97);
+}
+
+/* The secondary "Forgot Password" button (rendered as btn-primary in JSX) */
+.form-container form .mb-3 button.btn-primary {
+  background: var(--glass-bg-strong) !important;
+  color: var(--txt-hi) !important;
+  border: 1px solid var(--glass-brd);
+  box-shadow: none;
+  font-weight: 500;
+}
+.form-container form .mb-3 button.btn-primary:hover {
+  border-color: var(--glass-brd-hi);
+  color: var(--teal) !important;
+  background: var(--glass-bg-strong) !important;
+  transform: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .form-container form {
+    animation: none;
+  }
 }
