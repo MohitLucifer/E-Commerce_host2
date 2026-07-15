@@ -3,6 +3,7 @@ import { useSearch } from "../../context/search";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { FaSearch, FaTimes, FaClock, FaFire, FaArrowUp } from 'react-icons/fa';
+import API_URL from "../../config";
 
 const SearchInput = () => {
   const [values, setValues] = useSearch();
@@ -45,7 +46,7 @@ const SearchInput = () => {
       searchTimeoutRef.current = setTimeout(async () => {
         try {
           const { data } = await axios.get(
-            `https://e-commerce-host2.onrender.com/api/v1/product/search-suggestions/${values.keyword}`
+            `${API_URL}/api/v1/product/search-suggestions/${values.keyword}`
           );
           setSuggestions(data.suggestions || []);
           setLoading(false);
@@ -79,7 +80,7 @@ const SearchInput = () => {
     
     try {
       const { data } = await axios.get(
-        `https://e-commerce-host2.onrender.com/api/v1/product/search/${values.keyword}`
+        `${API_URL}/api/v1/product/search/${values.keyword}`
       );
       setValues({ ...values, results: data });
       navigate("/search");

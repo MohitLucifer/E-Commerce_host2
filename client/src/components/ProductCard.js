@@ -3,8 +3,9 @@ import { motion, useReducedMotion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { FaCartPlus, FaEye, FaCheck } from "react-icons/fa";
 import { fadeIn } from "../utils/motion";
+import API_URL from "../config";
 
-const API = "https://e-commerce-host2.onrender.com";
+const API = API_URL;
 
 const truncate = (text = "", max = 90) =>
   text.length > max ? `${text.slice(0, max).trimEnd()}…` : text;

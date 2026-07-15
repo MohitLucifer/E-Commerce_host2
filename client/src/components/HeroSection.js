@@ -4,9 +4,10 @@ import { motion, useReducedMotion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { FaArrowRight, FaArrowLeft } from "react-icons/fa6";
 import { fadeIn, staggerContainer } from "../utils/motion";
+import API_URL from "../config";
 import "../styles/Hero.css";
 
-const API = "https://e-commerce-host2.onrender.com";
+const API = API_URL;
 
 const usd = (v) =>
   typeof v === "number"

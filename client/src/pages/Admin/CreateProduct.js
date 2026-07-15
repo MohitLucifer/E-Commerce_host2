@@ -6,6 +6,7 @@ import axios from "axios";
 import { Select } from "antd";
 import { useNavigate } from "react-router-dom";
 import { FaPlus, FaUpload, FaSave, FaTimes, FaImage, FaTag, FaFileAlt, FaDollarSign, FaBoxes, FaShippingFast } from 'react-icons/fa';
+import API_URL from "../../config";
 
 const { Option } = Select;
 
@@ -25,7 +26,7 @@ const CreateProduct = () => {
   //get all category
   const getAllCategory = async () => {
     try {
-      const { data } = await axios.get("https://e-commerce-host2.onrender.com/api/v1/category/get-category");
+      const { data } = await axios.get(`${API_URL}/api/v1/category/get-category`);
       if (data?.success) {
         setCategories(data?.category);
       }
@@ -59,7 +60,7 @@ const CreateProduct = () => {
       productData.append("shipping", shipping);
       
       const { data } = await axios.post(
-        "https://e-commerce-host2.onrender.com/api/v1/product/create-product",
+        `${API_URL}/api/v1/product/create-product`,
         productData
       );
       

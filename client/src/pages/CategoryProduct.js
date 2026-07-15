@@ -6,8 +6,9 @@ import "../styles/CategoryProductStyles.css";
 import { toast } from "react-toastify";
 import { useCart } from "../context/cart";
 import ProductCard from "../components/ProductCard";
+import API_URL from "../config";
 
-const API = "https://e-commerce-host2.onrender.com";
+const API = API_URL;
 
 const CategoryProduct = () => {
   const params = useParams();

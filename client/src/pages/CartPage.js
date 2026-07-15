@@ -14,8 +14,9 @@ import {
   FaCreditCard,
   FaArrowLeft,
 } from "react-icons/fa";
+import API_URL from "../config";
 
-const API = "https://e-commerce-host2.onrender.com";
+const API = API_URL;
 const TAX_RATE = 0.08;
 const REMOVE_MS = 280; // keep under the 300ms UI ceiling
 

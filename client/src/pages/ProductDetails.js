@@ -13,8 +13,9 @@ import {
   FaShieldAlt,
   FaUndo,
 } from "react-icons/fa";
+import API_URL from "../config";
 
-const API = "https://e-commerce-host2.onrender.com";
+const API = API_URL;
 
 const formatPrice = (value) =>
   typeof value === "number"

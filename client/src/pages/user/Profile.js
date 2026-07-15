@@ -5,6 +5,7 @@ import { useAuth } from "../../context/auth";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { FaUser, FaEnvelope, FaLock, FaPhone, FaMapMarkerAlt, FaSave, FaEdit, FaCamera } from 'react-icons/fa';
+import API_URL from "../../config";
 
 const Profile = () => {
   //context
@@ -32,7 +33,7 @@ const Profile = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const { data } = await axios.put("https://e-commerce-host2.onrender.com/api/v1/auth/profile", {
+      const { data } = await axios.put(`${API_URL}/api/v1/auth/profile`, {
         name,
         email,
         password,
