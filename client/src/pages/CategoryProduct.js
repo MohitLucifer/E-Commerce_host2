@@ -1,3 +1,4 @@
+import API_URL from "../config";
 import React, { useState, useEffect } from "react";
 import Layout from "../components/Layout/Layout";
 import { useParams, useNavigate } from "react-router-dom";
@@ -19,7 +20,7 @@ const CategoryProduct = () => {
   const getPrductsByCat = async () => {
     try {
       const { data } = await axios.get(
-        `https://e-commerce-host2.onrender.com/api/v1/product/product-category/${params.slug}`
+        `${API_URL}/api/v1/product/product-category/${params.slug}`
       );
       setProducts(data?.products);
       setCategory(data?.category);
@@ -40,7 +41,7 @@ const CategoryProduct = () => {
                 <div className="modern-product-card" key={p._id}>
                   <div className="product-image-container">
                     <img
-                      src={`https://e-commerce-host2.onrender.com/api/v1/product/product-photo/${p._id}`}
+                      src={`${API_URL}/api/v1/product/product-photo/${p._id}`}
                       className="product-image"
                       alt={p.name}
                     />

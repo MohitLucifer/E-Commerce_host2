@@ -1,3 +1,4 @@
+import API_URL from "../../config";
 import React, { useState } from "react";
 import Layout from "./../../components/Layout/Layout";
 import axios from "axios";
@@ -17,7 +18,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("https://e-commerce-host2.onrender.com/api/v1/auth/register", {
+      const res = await axios.post(`${API_URL}/api/v1/auth/register`, {
         name,
         email,
         password,

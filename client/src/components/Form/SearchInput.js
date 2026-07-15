@@ -1,3 +1,4 @@
+import API_URL from "../../config";
 import React, { useState, useEffect, useRef } from "react";
 import { useSearch } from "../../context/search";
 import axios from "axios";
@@ -45,7 +46,7 @@ const SearchInput = () => {
       searchTimeoutRef.current = setTimeout(async () => {
         try {
           const { data } = await axios.get(
-            `https://e-commerce-host2.onrender.com/api/v1/product/search-suggestions/${values.keyword}`
+            `${API_URL}/api/v1/product/search-suggestions/${values.keyword}`
           );
           setSuggestions(data.suggestions || []);
           setLoading(false);
@@ -79,7 +80,7 @@ const SearchInput = () => {
     
     try {
       const { data } = await axios.get(
-        `https://e-commerce-host2.onrender.com/api/v1/product/search/${values.keyword}`
+        `${API_URL}/api/v1/product/search/${values.keyword}`
       );
       setValues({ ...values, results: data });
       navigate("/search");

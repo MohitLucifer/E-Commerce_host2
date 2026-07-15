@@ -1,3 +1,4 @@
+import API_URL from "../config";
 import React, { useState, useEffect } from "react";
 import Layout from "./../components/Layout/Layout";
 import { useCart } from "../context/cart";
@@ -97,7 +98,7 @@ const CartPage = () => {
   const handlePayment = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.post("https://e-commerce-host2.onrender.com/api/v1/product/braintree/payment", {
+      const { data } = await axios.post(`${API_URL}/api/v1/product/braintree/payment`, {
         cart
       });
       setLoading(false);
@@ -167,7 +168,7 @@ const CartPage = () => {
                 >
                   <div className="item-image">
                     <img
-                      src={`https://e-commerce-host2.onrender.com/api/v1/product/product-photo/${item._id}`}
+                      src={`${API_URL}/api/v1/product/product-photo/${item._id}`}
                       alt={item.name}
                     />
                   </div>

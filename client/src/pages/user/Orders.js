@@ -1,3 +1,4 @@
+import API_URL from "../../config";
 import React, { useState, useEffect } from "react";
 import UserMenu from "../../components/Layout/UserMenu";
 import Layout from "./../../components/Layout/Layout";
@@ -15,7 +16,7 @@ const Orders = () => {
   const getOrders = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get("https://e-commerce-host2.onrender.com/api/v1/auth/orders");
+      const { data } = await axios.get(`${API_URL}/api/v1/auth/orders`);
       setOrders(data);
     } catch (error) {
       console.log(error);
@@ -171,7 +172,7 @@ const Orders = () => {
                             <div key={product._id} className="product-item">
                               <div className="product-image">
                                 <img
-                                  src={`https://e-commerce-host2.onrender.com/api/v1/product/product-photo/${product._id}`}
+                                  src={`${API_URL}/api/v1/product/product-photo/${product._id}`}
                                   alt={product.name}
                           />
                         </div>

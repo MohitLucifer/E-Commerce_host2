@@ -1,3 +1,4 @@
+import API_URL from "../../config";
 import React, { useState, useEffect } from "react";
 import AdminMenu from "../../components/Layout/AdminMenu";
 import Layout from "../../components/Layout/Layout";
@@ -18,7 +19,7 @@ const Products = () => {
   const getAllProducts = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get("https://e-commerce-host2.onrender.com/api/v1/product/get-product");
+      const { data } = await axios.get(`${API_URL}/api/v1/product/get-product`);
       setProducts(data.products);
     } catch (error) {
       console.log(error);
@@ -31,7 +32,7 @@ const Products = () => {
   //get all categories
   const getAllCategories = async () => {
     try {
-      const { data } = await axios.get("https://e-commerce-host2.onrender.com/api/v1/category/get-category");
+      const { data } = await axios.get(`${API_URL}/api/v1/category/get-category`);
       if (data?.success) {
         setCategories(data?.category);
       }
@@ -57,7 +58,7 @@ const Products = () => {
   const handleDelete = async (productId) => {
     if (window.confirm("Are you sure you want to delete this product?")) {
       try {
-        await axios.delete(`https://e-commerce-host2.onrender.com/api/v1/product/delete-product/${productId}`);
+        await axios.delete(`${API_URL}/api/v1/product/delete-product/${productId}`);
         toast.success("Product deleted successfully");
         getAllProducts();
       } catch (error) {
@@ -79,7 +80,7 @@ const Products = () => {
     if (imageErrors[product._id]) {
       return null; // Will show fallback
     }
-    return `https://e-commerce-host2.onrender.com/api/v1/product/product-photo/${product._id}`;
+    return `${API_URL}/api/v1/product/product-photo/${product._id}`;
   };
 
   return (

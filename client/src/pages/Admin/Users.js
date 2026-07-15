@@ -1,3 +1,4 @@
+import API_URL from "../../config";
 import React, { useState, useEffect } from "react";
 import AdminMenu from "../../components/Layout/AdminMenu";
 import Layout from "./../../components/Layout/Layout";
@@ -17,7 +18,7 @@ const Users = () => {
   const getAllUsers = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get("https://e-commerce-host2.onrender.com/api/v1/auth/all-users");
+      const { data } = await axios.get(`${API_URL}/api/v1/auth/all-users`);
       if (data?.success) {
         setUsers(data.users);
       } else {
@@ -47,7 +48,7 @@ const Users = () => {
   const handleDeleteUser = async (userId) => {
     if (window.confirm("Are you sure you want to delete this user?")) {
       try {
-        const { data } = await axios.delete(`https://e-commerce-host2.onrender.com/api/v1/auth/delete-user/${userId}`);
+        const { data } = await axios.delete(`${API_URL}/api/v1/auth/delete-user/${userId}`);
         if (data?.success) {
           toast.success("User deleted successfully");
           getAllUsers();

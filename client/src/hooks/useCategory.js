@@ -1,3 +1,4 @@
+import API_URL from "../config";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -7,7 +8,7 @@ export default function useCategory() {
   //get cat
   const getCategories = async () => {
     try {
-      const { data } = await axios.get("https://e-commerce-host2.onrender.com/api/v1/category/get-category");
+      const { data } = await axios.get(`${API_URL}/api/v1/category/get-category`);
       setCategories(data?.category);
     } catch (error) {
       console.log(error);

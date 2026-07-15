@@ -1,3 +1,4 @@
+import API_URL from "../../config";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -28,7 +29,7 @@ const AdminOrders = () => {
   const getOrders = async () => {
     try {
       setLoading(true);
-      const { data } = await axios.get("https://e-commerce-host2.onrender.com/api/v1/auth/all-orders");
+      const { data } = await axios.get(`${API_URL}/api/v1/auth/all-orders`);
       setOrders(data);
     } catch (error) {
       console.log(error);
@@ -44,7 +45,7 @@ const AdminOrders = () => {
 
   const handleChange = async (orderId, value) => {
     try {
-      const { data } = await axios.put(`https://e-commerce-host2.onrender.com/api/v1/auth/order-status/${orderId}`, {
+      const { data } = await axios.put(`${API_URL}/api/v1/auth/order-status/${orderId}`, {
         status: value,
       });
       toast.success("Order status updated successfully");
@@ -254,7 +255,7 @@ const AdminOrders = () => {
                           <div key={product._id} className="product-item">
                             <div className="product-image">
                               <img
-                                src={`https://e-commerce-host2.onrender.com/api/v1/product/product-photo/${product._id}`}
+                                src={`${API_URL}/api/v1/product/product-photo/${product._id}`}
                                 alt={product.name}
                               />
                             </div>

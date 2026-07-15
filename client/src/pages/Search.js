@@ -1,3 +1,4 @@
+import API_URL from "../config";
 import React from "react";
 import Layout from "./../components/Layout/Layout";
 import { useSearch } from "../context/search";
@@ -28,7 +29,7 @@ const Search = () => {
               <div className="modern-product-card" key={p._id}>
                 <div className="product-image-container">
                   <img
-                    src={`https://e-commerce-host2.onrender.com/api/v1/product/product-photo/${p._id}`}
+                    src={`${API_URL}/api/v1/product/product-photo/${p._id}`}
                     className="product-image"
                     alt={p.name}
                   />

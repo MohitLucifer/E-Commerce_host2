@@ -1,3 +1,4 @@
+import API_URL from "../config";
 import React, { useState, useEffect } from "react";
 import Layout from "./../components/Layout/Layout";
 import axios from "axios";
@@ -27,9 +28,9 @@ const ProductDetails = () => {
 
   // Mock product images for demonstration
   const productImages = [
-    `https://e-commerce-host2.onrender.com/api/v1/product/product-photo/${product._id}`,
-    `https://e-commerce-host2.onrender.com/api/v1/product/product-photo/${product._id}`,
-    `https://e-commerce-host2.onrender.com/api/v1/product/product-photo/${product._id}`,
+    `${API_URL}/api/v1/product/product-photo/${product._id}`,
+    `${API_URL}/api/v1/product/product-photo/${product._id}`,
+    `${API_URL}/api/v1/product/product-photo/${product._id}`,
   ];
 
   //initial details
@@ -42,7 +43,7 @@ const ProductDetails = () => {
     try {
       setLoading(true);
       const { data } = await axios.get(
-        `https://e-commerce-host2.onrender.com/api/v1/product/get-product/${params.slug}`
+        `${API_URL}/api/v1/product/get-product/${params.slug}`
       );
       setProduct(data?.product);
       getSimilarProduct(data?.product._id, data?.product.category._id);
@@ -57,7 +58,7 @@ const ProductDetails = () => {
   const getSimilarProduct = async (pid, cid) => {
     try {
       const { data } = await axios.get(
-        `https://e-commerce-host2.onrender.com/api/v1/product/related-product/${pid}/${cid}`
+        `${API_URL}/api/v1/product/related-product/${pid}/${cid}`
       );
       setRelatedProducts(data?.products);
     } catch (error) {
@@ -240,7 +241,7 @@ const ProductDetails = () => {
                 <div className="modern-product-card" key={p._id}>
                   <div className="product-image-container">
                     <img
-                      src={`https://e-commerce-host2.onrender.com/api/v1/product/product-photo/${p?._id}`}
+                      src={`${API_URL}/api/v1/product/product-photo/${p?._id}`}
                       className="product-image"
                       alt={p.name}
                     />

@@ -1,3 +1,4 @@
+import API_URL from "../../config";
 import React, { useState, useEffect } from "react";
 import UserMenu from "../../components/Layout/UserMenu";
 import Layout from "./../../components/Layout/Layout";
@@ -32,7 +33,7 @@ const Profile = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const { data } = await axios.put("https://e-commerce-host2.onrender.com/api/v1/auth/profile", {
+      const { data } = await axios.put(`${API_URL}/api/v1/auth/profile`, {
         name,
         email,
         password,
