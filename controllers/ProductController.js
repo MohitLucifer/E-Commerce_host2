@@ -100,6 +100,8 @@ export const productPhotoController = async (req, res) => {
     const product = await productModel.findById(req.params.pid).select("photo");
     if (product.photo.data) {
       res.set("Content-type", product.photo.contentType);
+      // Photos change only via product update; let browsers cache for a day
+      res.set("Cache-Control", "public, max-age=86400");
       return res.status(200).send(product.photo.data);
     }
   } catch (error) {
